@@ -1,0 +1,235 @@
+.k-appbar.top-nav-bar{
+    height: 50px;
+    padding-block: 0%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 8px 10px -8px grey;
+    .k-appbar-section.nav-bar {
+        position: relative;
+        float: left;
+        margin-top: 5px;
+        height: 50px;
+        flex-grow: 2;
+        .contents {
+            .content {
+                height: 30px;
+                float: left;
+                a {
+                    padding: 0px 15px 0px 15px;
+                    text-decoration: none;
+                    font-weight: 700;
+                    font-size: 13px;
+                    line-height: 16px;
+                    color: #BBBBBB;
+                }
+                a:hover {
+                    color: #008000;
+                }
+                .hor-line {
+                    display: none;
+                    margin: 12px 5px 0px 5px;
+                    border-top: 1px solid #008000;
+                    border-bottom: 1px solid #008000;
+                    background-color: #008000;
+                    border-radius: 3px;
+                    height: 3px;
+                }
+
+                a:hover + .hor-line {
+                    display: block;
+                }
+            }
+            .k-appbar-separator{
+                min-height: 1.5em;
+                float: right;
+                border-width: 0px 0px 0px 2px;
+                border-radius: 3px;
+                color: #C4C4C4;
+            }
+        }
+        
+    }
+    .k-appbar-section.profile {
+        position: relative;
+        float: right;
+        // border: 1px solid black;
+        div {
+            padding: 0px 15px 0px 15px;
+        }
+        .noti-btn, .search-btn, .avatar-btn {
+            position: relative;
+            border: none;
+            background-color: #FFFFFF;
+        }
+        .noti-btn:focus, .search-btn:focus, .avatar-btn:focus{
+            box-shadow: none;
+        }
+        .k-button.search-btn, .k-button.noti-btn, .k-button.avatar-btn{
+            padding: 0px;
+        }
+        .noti-no {
+            position: absolute;
+            top: -15px;
+            right: -3px;
+            height: 15px;
+            width: 15px;
+            background-color: #F1802E;
+            border-radius: 50%;
+            font-family: 'Mulish';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 9px;
+            line-height: 15px;
+            color: #FFFFFF;
+            text-align: center;
+        }
+        .activity {
+            position: absolute;
+            top: 15px;
+            right: -8px;
+            height: 15px;
+            width: 15px;  
+            background-color: #05D103;
+            border-radius: 50%;
+        }
+    }
+}
+.breadcrumb-buttons{
+    display: flex;
+    position: relative;
+    margin-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #BDC2D2;
+    .breadcrumb {
+        flex-grow: 2;
+        background-color: #EDEFF3;
+        .item {
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 16px;
+            color: #959DB3;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    }
+    .buttons{
+        display: flex;
+        flex-grow: 0;
+        .coupon-list-btn, .apply-btn{
+            border-style:none;
+            background-color: #FFFFFF;
+            font-weight: 700;
+            font-size: 11px;
+            line-height: 14px;  
+            text-align: center;
+            color: #008000;
+            border-radius: 3px;
+            box-shadow: 0px 4px 12px -2px rgb(96, 173, 232);
+            margin-right: 10px;
+        }
+        .coupon-list-btn:hover{
+            background-color: whitesmoke;
+        }
+        .apply-btn:hover {
+            background-color: whitesmoke;
+        }
+        .print-btn{
+            border-style:none;
+            background-color: #FFFFFF;
+            color: #959DB3;
+            border-radius: 3px;
+            margin-right: 10px;
+            padding: 0px 10px 0px 10px;
+        }
+        .print-btn:focus {
+            box-shadow: none;
+        }
+        .print-btn:hover{
+            background-color: whitesmoke;
+        }
+        .unrelease-btn{
+            border-style:none;
+            background-color: #BDC2D2;
+            font-weight: 700;
+            font-size: 11px;
+            line-height: 14px;  
+            text-align: center;
+            color: #FFFFFF;
+            border-radius: 3px;
+            box-shadow: 0px 4px 12px -2px rgb(96, 173, 232);
+            margin-right: 10px;
+        }
+        .unrelease-btn:hover{
+            background-color: #bdc2d2e3;
+        }
+        .add-btn-container {
+            box-shadow: 0px 4px 12px -2px rgb(96, 173, 232);
+            margin-right: 10px;
+            background-color: #1A6634;
+            border-radius: 3px;
+            .add-btn-1 {
+                background-color: #1A6634;
+                font-weight: 700;
+                font-size: 11px;
+                line-height: 14px;
+                color: #FFFFFF;
+                padding-inline: 0%;
+            }
+    
+            .add-btn-1:focus {
+                box-shadow: none;
+            }
+            .add-btn-2 {
+                background-color: #1A6634;
+                color: #FFFFFF;
+                border-style: none ;
+            }
+            .add-btn-2:focus {
+                box-shadow: none;
+            }
+        }
+
+        .export-btn-container{
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            margin-right: 20px;
+            background-color: #FFFFFF;
+            border-radius: 3px;
+            cursor: pointer;
+            .export-btn-1 {
+                background-color: #FFFFFF;
+                font-weight: 700;
+                font-size: 11px;
+                line-height: 14px;
+                padding-inline: 0%;
+                border-style: none;
+            }
+    
+            .export-btn-1:focus {
+                box-shadow: none;
+            }
+            .export-btn-2 {
+                margin-right: 5px;
+                background-color: #FFFFFF;
+                border-style: none ;
+            }
+            .export-btn-2:focus {
+                box-shadow: none;
+            }
+            .export-btn-3 {
+                background-color: #FFFFFF;
+                color: #959DB3;
+                border-style: none ;
+            }
+            .export-btn-3:focus {
+                box-shadow: none;
+            }
+            .line{
+                border-left: 2px solid #959DB3;
+                height: 20px;
+            }
+        }
+    }
+}

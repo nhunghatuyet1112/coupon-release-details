@@ -1,0 +1,45 @@
+hr {
+    margin-top: 55px;
+}
+
+.side-bar-drawer{
+    .k-overlay {
+        display: none !important;
+    }
+    .k-drawer{
+        width: 15%;
+        margin-top: 65px;
+        background-color: #5A6276;
+        border-color: transparent !important;
+        .k-drawer-wrapper{
+            width: 100% !important;
+            color: #FFFFFF;
+            .k-drawer-items{
+                .k-drawer-item{
+                    padding: 15px 16px;
+                }
+                .k-drawer-item:focus{
+                    background-color: #1A2334;
+                    box-shadow: none;
+                }
+                .k-drawer-item.k-selected{
+                    background-color: #1A2334;
+                    box-shadow: none;
+                }
+                .k-drawer-item.k-level-1{
+                    background-color: #1A2334;
+                    color: #959DB3;
+                    font-size: 13px;
+                    font-weight: 700;
+                    .k-item-text{
+                        margin-left: 50px;
+                    }
+                }
+                .k-drawer-item.k-level-1.k-selected {
+                    color: #FFFFFF;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}

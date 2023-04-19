@@ -1,0 +1,24 @@
+<div class="add-new-container">
+    <span class="title">THÊM MỚI SẢN PHẨM</span>
+    <form class="add-new-form">
+        <span class="input-barcode">
+            <kendo-label class="kendo-label" for="productBarcode" text="Nhập mã sản phẩm"></kendo-label>
+            <kendo-textbox class="kendo-textbox" id="productBarcode" placeholder="4904071403967"
+                value="{{Barcode}}"></kendo-textbox>
+        </span>
+        <span class="input-name">
+            <kendo-label class="kendo-label" for="productName" text="Tên sản phẩm"></kendo-label>
+            <kendo-textbox class="kendo-textbox" id="productName"
+                placeholder="Tủ nhựa 5 ngăn Sanka 34x42x107cm - Trắng kem " value="{{productName}}"
+                (valueChange)="onChangeName($event)"></kendo-textbox>
+        </span>
+        <span class="image-container">
+            <img style="width:300px; height: 300px;" src="http://test.lapson.vn/{{ImageUrl}}">
+        </span>
+    </form>
+
+    <div class="btns-container">
+        <kendo-button (click)="onCloseDrawer($event)" class="close-drawer-btn">ĐÓNG</kendo-button>
+        <kendo-button (click)="onEditProduct($event)" class="add-product-btn">CẬP NHẬT</kendo-button>
+    </div>
+</div>

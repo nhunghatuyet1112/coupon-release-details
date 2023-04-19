@@ -1,0 +1,408 @@
+<kendo-drawer-container class="main-content-drawer">
+    <kendo-drawer #newProductDrawer mode="overlay" [(expanded)]="addDrawerExpanded" position="end">
+        <ng-template kendoDrawerTemplate ngIf="addDrawerExpanded">
+            <app-add-new-drawer (closeEditDrawer)="onCloseEditDrawer(newProductDrawer)"></app-add-new-drawer>
+        </ng-template>
+    </kendo-drawer>
+    <kendo-drawer #editProductDrawer mode="overlay" [(expanded)]="editDrawerExpanded" position="end">
+        <ng-template kendoDrawerTemplate ngIf="editDrawerExpanded">
+            <app-add-new-drawer [productName]="productDetail.ProductName" [Barcode]="productDetail.Barcode"
+                [ImageUrl]="productDetail.ImageThumb" (closeEditDrawer)="onCloseEditDrawer(editProductDrawer)"
+                (changeProductName)="onChangeName($event)"
+                (editProductClick)="onEditProduct(editProductDrawer, productDetail.ProductName, productDetail.Barcode)">
+            </app-add-new-drawer>
+        </ng-template>
+    </kendo-drawer>
+    <kendo-dialog #editProductDialog class="edit-product-dialog" *ngIf="isDialogOpened" (close)="onCloseDialog()">
+        <kendo-dialog-titlebar>THÊM MỚI SẢN PHẨM</kendo-dialog-titlebar>
+        <form class="add-new-form">
+            <span class="input-barcode">
+                <kendo-label class="kendo-label" for="productBarcode" text="Nhập mã sản phẩm"></kendo-label>
+                <kendo-textbox class="kendo-textbox" id="productBarcode" placeholder="4904071403967"
+                    value="{{productDetail.Barcode}}"></kendo-textbox>
+            </span>
+            <span class="input-name">
+                <kendo-label class="kendo-label" for="productName" text="Tên sản phẩm"></kendo-label>
+                <kendo-textbox class="kendo-textbox" id="productName"
+                    placeholder="Tủ nhựa 5 ngăn Sanka 34x42x107cm - Trắng kem " value="{{productDetail.ProductName}}"
+                    (valueChange)="onChangeName($event)"></kendo-textbox>
+            </span>
+            <span>
+                <img style="width: 100px; height: 100px;" src="http://test.lapson.vn/{{productDetail.ImageThumb}}">
+            </span>
+        </form>
+        <kendo-dialog-actions>
+            <kendo-button class="close-dialog-btn" (click)="onCloseDialog()">ĐÓNG</kendo-button>
+            <kendo-button class="update-product-btn"
+                (click)="onEditProductDialog(productDetail.ProductName, productDetail.Barcode)">CẬP NHẬT</kendo-button>
+        </kendo-dialog-actions>
+    </kendo-dialog>
+    <kendo-dialog #deleteProductDialog class="delete-product-dialog" *ngIf="isDeleteDialogOpened"
+        (close)="onCloseDialog()">
+        <kendo-dialog-titlebar>XÓA SẢN PHẨM</kendo-dialog-titlebar>
+        <span>Bạn chắc chắn muốn xóa sản phẩm {{productDetail.ProductName}}</span>
+        <span>Sản phẩm bị xóa sẽ <i>KHÔNG</i> thể khôi phục lại</span>
+        <kendo-dialog-actions>
+            <kendo-button class="undelete-btn" (click)="onCloseDialog()">KHÔNG XÓA</kendo-button>
+            <kendo-button class="delete-product-btn" iconClass="fa-regular fa-trash-can"
+                (click)="onDeleteProduct()">XÓA</kendo-button>
+        </kendo-dialog-actions>
+    </kendo-dialog>
+    <kendo-drawer-content>
+        <app-header></app-header>
+        <div class="coupon-info-container">
+            <div class="coupon-info">
+                <div class="coupon-info-label">
+                    <span class="coupon-info-label-1">THÔNG TIN COUPON</span>
+                    <span class="coupon-info-label-2">Coupon giảm giá đơn hàng</span>
+                </div>
+                <div class="lang-btns">
+                    <kendo-button (click)="onVietnamese()">Tiếng Việt</kendo-button>
+                    <span class="line"></span>
+                    <kendo-button (click)="onJapanLanguage()">日本語</kendo-button>
+                    <span class="line"></span>
+                    <kendo-button (click)="onEnglishLanguage()">English</kendo-button>
+                </div>
+            </div>
+            <div style="display: flex;" class="coupon-info-input">
+                <div class="coupon-info-input-child-1">
+                    <div>
+                        <span class="ma-bat-dau">
+                            <kendo-label for="maBatDau" text="Mã bắt đầu coupon"></kendo-label>
+                            <kendo-textbox id="maBatDau" #maBatDau value="KMGBL22"></kendo-textbox>
+                        </span>
+                        <span class="sl-phat-hanh">
+                            <kendo-label for="slPhatHanh" text="SL phát hành"></kendo-label>
+                            <kendo-textbox id="slPhatHanh" #slPhatHanh value="10"></kendo-textbox>
+                        </span>
+                    </div>
+                    <div class="x-container">
+                        <kendo-button class="x-btn"></kendo-button>
+                        <kendo-label for="gapXLan" text="Mã coupon ngẫu nhiên gấp (x) lần"></kendo-label>
+                        <kendo-textbox id="gapXLan" #gapXLan value="1"></kendo-textbox>
+                    </div>
+                    <div class="value-container">
+                        <kendo-label for="couponValue" text="Giá trị coupon"></kendo-label>
+                        <span class="percent-container">
+                            <kendo-button class="percent-btn"></kendo-button>
+                            <span class="text">tỷ lệ %</span>
+                        </span>
+                        <kendo-textbox id="couponValue" #couponValue value="100,000"></kendo-textbox>
+                    </div>
+                    <div class="date-container">
+                        <kendo-daterange>
+                            <kendo-floatinglabel text="Start">
+                                <kendo-datepicker [popupSettings]="popupSettings2" calendarType="classic" #shortDate
+                                    format="dd/MM/yyyy" [(value)]="range.start" [min]="min" [max]="max"
+                                    [disabledDates]="disabledDates">
+                                </kendo-datepicker>
+                            </kendo-floatinglabel>
+                            <kendo-floatinglabel text="End">
+                                <kendo-datepicker [popupSettings]="popupSettings2" calendarType="classic" #shortDate
+                                    format="dd/MM/yyyy" [(value)]="range.end" [min]="range.start" [max]="max"
+                                    [disabledDates]="disabledDates">
+                                </kendo-datepicker>
+                            </kendo-floatinglabel>
+                        </kendo-daterange>
+                    </div>
+                    <div class="status-container">
+                        <span class="status-1">Tình trạng</span>
+                        <span class="status-2">Đã phê duyệt áp dụng</span>
+                    </div>
+                </div>
+                <div class="coupon-info-input-child-2">
+                    <span class="coupon-name-container">
+                        <kendo-label for="couponValue" text="Tên coupon"></kendo-label>
+                        <ng-container [ngSwitch]="isLanguage">
+                            <kendo-textbox *ngSwitchCase="'ja'" id="couponValue" #couponValueJapan
+                                value="Giảm 200k"></kendo-textbox>
+                            <kendo-textbox *ngSwitchCase="'en'" id="couponValue" #couponValueEnglish
+                                value="Giảm 300k"></kendo-textbox>
+                            <kendo-textbox *ngSwitchDefault id="couponValue" #couponValueVietnam
+                                value="Giảm 100k"></kendo-textbox>
+                        </ng-container>
+                    </span>
+
+                    <span class="condition-container">
+                        <kendo-label for="condition-apply" text="Mô tả điều kiện áp dụng"></kendo-label>
+                        <ng-container [ngSwitch]="isLanguage">
+                            <kendo-textbox *ngSwitchCase="'ja'" id="conditionApply" #conditionApplyJapan
+                                value="Áp dụng cho đơn hàng có giá trị trên 600.00 đ"></kendo-textbox>
+                            <kendo-textbox *ngSwitchCase="'en'" id="conditionApply" #conditionApplyEnglish
+                                value="Áp dụng cho đơn hàng có giá trị trên 700.00 đ"></kendo-textbox>
+                            <kendo-textbox *ngSwitchDefault id="conditionApply" #conditionApplyVietnam
+                                value="Áp dụng cho đơn hàng có giá trị trên 800.00 đ"></kendo-textbox>
+                        </ng-container>
+
+                    </span>
+
+                    <span class="description-container">
+                        <kendo-label for="desCription" text="Diễn giải "></kendo-label>
+                        <ng-container [ngSwitch]="isLanguage">
+                            <kendo-textarea *ngSwitchCase="'ja'" id="desCription" #desCriptionJapan
+                                value="KMGBL22-Voucher lịch 100k HĐ 600k-NGÀY KÍNH LÃO-HSD 28/7/22"></kendo-textarea>
+                            <kendo-textarea *ngSwitchCase="'en'" id="desCription" #desCriptionEnglish
+                                value="KMGBL22-Voucher lịch 100k HĐ 600k-NGÀY KÍNH LÃO-HSD 29/8/22"></kendo-textarea>
+                            <kendo-textarea *ngSwitchDefault id="desCription" #desCriptionVietnam
+                                value="KMGBL22-Voucher lịch 100k HĐ 600k-NGÀY KÍNH LÃO-HSD 30/9/22"></kendo-textarea>
+                        </ng-container>
+
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="applying-conditions">
+            <p class="title">ĐIỀU KIỆN ÁP DỤNG</p>
+            <div class="content-container">
+                <div class="condition-1">
+                    <span class="apply-units-title">Đơn vị áp dụng</span>
+                    <span class="span-1">
+                        <input type="checkbox" #websiteUnit kendoCheckBox />
+                        <kendo-label class="k-checkbox-label" [for]="websiteUnit"
+                            text="Website hachihachi.com.vn"></kendo-label>
+                    </span>
+                    <span class="span-2">
+                        <input type="checkbox" name="store" [(ngModel)]="masterSelected" #allStores kendoCheckBox
+                            (change)="checkUncheckAll()" />
+                        <kendo-label class="k-checkbox-label" [for]="allStores" text="Tất cả cửa hàng"></kendo-label>
+                    </span>
+                    <span style="overflow-y:scroll; display: flex; flex-direction: column;" class="span-3">
+                        <span *ngFor="let item of selectedList">
+                            <input type="checkbox" name="store" [(ngModel)]="item.isSelected" #item.id kendoCheckBox
+                                (change)="isAllSelected()" />
+                            <kendo-label class="k-checkbox-label" [for]="item.id" text="{{item.value}}"></kendo-label>
+                        </span>
+                    </span>
+                </div>
+                <div class="condition-2">
+                    <div class="usage-limit">
+                        <span class="condition-2-title">Hạn mức sử dụng</span>
+                        <span class="usages-input">
+                            <kendo-label class="kendo-label" for="usages"
+                                text="Số lượt sử dụng của coupon"></kendo-label>
+                            <kendo-textbox dir="rtl" style="width: 75px;" id="usages" value="5,000"></kendo-textbox>
+                        </span>
+                        <span class="limit-input">
+                            <kendo-label class="kendo-label" for="limit"
+                                text="Số lượt dùng tối đa/1 giao dịch"></kendo-label>
+                            <kendo-textbox style="width: 75px;" id="limit" value="1"></kendo-textbox>
+                        </span>
+                    </div>
+                    <div class="minimum-order-value">
+                        <span class="condition-2-title">Giá trị đơn hàng được áp dụng coupon</span>
+                        <span class="minimum-order-value-input">
+                            <kendo-label class="kendo-label" for="minimum"
+                                text="Số lượt sử dụng của coupon"></kendo-label>
+                            <kendo-textbox style="width: 75px;" id="minimum" value="0"></kendo-textbox>
+                        </span>
+                    </div>
+                    <div class="maximum-discount-value">
+                        <span class="condition-2-title">Giá trị đơn hàng được áp dụng coupon</span>
+                        <span class="maximum-discount-value-input">
+                            <kendo-label class="kendo-label" for="maximum"
+                                text="Giá trị chiết khấu tối đa của coupon"></kendo-label>
+                            <kendo-textbox style="width: 75px;" id="maximum" value="100,000"></kendo-textbox>
+                        </span>
+                    </div>
+                </div>
+                <div class="condition-3">
+                    <span class="coupon-classification">Phân loại coupon
+                        <span class="span-1">
+                            <input type="radio" name="couponClass" id="publicCoupon" kendoRadioButton
+                                [checked]="radioSelected1" (change)="handlePublicCoupon()">
+                            <kendo-label class="kendo-label" text="công khai" for="publicCoupon"></kendo-label>
+                        </span>
+                        <span class="span-2">
+                            <input type="radio" name="couponClass" id="personalCoupon" kendoRadioButton
+                                [checked]="radioSelected2" (change)="handlePersonalCoupon()">
+                            <kendo-label class="kendo-label" text="cá nhân" for="personalCoupon"></kendo-label>
+                        </span>
+                        <span class="span-3">
+                            <input type="checkbox" id="personalCouponChild" kendoCheckBox [disabled]="isDisabled">
+                            <kendo-label class="kendo-label" text="đích danh" for="personalCouponChild"></kendo-label>
+                        </span>
+                    </span>
+                    <span class="applied-no">SL phát hành áp dụng
+                        <span class="span-1">
+                            <input type="radio" name="applyFor" id="forPersonal" kendoRadioButton>
+                            <kendo-label class="kendo-label" text="số coupon cho từng cá nhân"
+                                for="forPersonal"></kendo-label>
+                        </span>
+                        <span class="span-2">
+                            <input type="radio" name="applyFor" id="forAll" kendoRadioButton>
+                            <kendo-label class="kendo-label" text="coupon dùng chung cho tất cả"
+                                for="forAll"></kendo-label>
+                        </span>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="configuration-noti">
+            <div class="configuration-noti-header">
+                <p class="title">CẤU HÌNH GỞI THÔNG BÁO</p>
+                <div class="noti-btns">
+                    <kendo-button (click)="onSMS()">SMS</kendo-button>
+                    <span class="line"></span>
+                    <kendo-button (click)="onMobileApp()">Mobile App</kendo-button>
+                    <span class="line"></span>
+                    <kendo-button (click)="onCart()">Giỏ hàng</kendo-button>
+                </div>
+            </div>
+            <div class="configuration-noti-content">
+                <ng-container [ngSwitch]="isNoti">
+                    <ng-template ngSwitchCase="Mobile App">
+                        <div class="noti-header">
+                            <input type="checkbox" id="isMobileTitled" kendoCheckBox>
+                            <kendo-label for="isMobileTitled"
+                                text="Gởi thông báo trên Mobile App với tiêu đề"></kendo-label>
+                            <kendo-textbox id="mobileTitleValue"
+                                value="Hachi Hachi chúc mừng bạn nhận được Coupon mã [COUPONID]"></kendo-textbox>
+                        </div>
+                        <div class="noti-content">
+                            <kendo-label for="mobileContent" text="Nội dung thông báo"></kendo-label>
+                            <kendo-textarea [rows]="8" style="overflow-y: scroll;" id="smsContent"></kendo-textarea>
+                        </div>
+                    </ng-template>
+                    <ng-template ngSwitchCase="Cart">
+                        <div class="noti-header">
+                            <input type="checkbox" id="isCartTitled" kendoCheckBox>
+                            <kendo-label for="isCartTitled"
+                                text="Gởi thông báo trên giỏ hàng với tiêu đề"></kendo-label>
+                            <kendo-textbox id="cartTitleValue"
+                                value="Hachi Hachi chúc mừng bạn nhận được Coupon mã [COUPONID]"></kendo-textbox>
+                        </div>
+                        <div class="noti-content">
+                            <kendo-label for="cartContent" text="Nội dung thông báo"></kendo-label>
+                            <kendo-textarea [rows]="8" style="overflow-y: scroll;" id="smsContent"></kendo-textarea>
+                        </div>
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        <div class="noti-header">
+                            <input type="checkbox" id="isSMSTitled" kendoCheckBox>
+                            <kendo-label for="isSMSTitled" text="Gởi thông báo trên SMS với tiêu đề"></kendo-label>
+                            <kendo-textbox id="smsTitleValue"
+                                value="Hachi Hachi chúc mừng bạn nhận được Coupon mã [COUPONID]"></kendo-textbox>
+                        </div>
+                        <div class="noti-content">
+                            <kendo-label for="smsContent" text="Nội dung thông báo"></kendo-label>
+                            <kendo-textarea [rows]="8" style="overflow-y: scroll;" id="smsContent"></kendo-textarea>
+                        </div>
+                    </ng-template>
+                </ng-container>
+
+                <div class="datetime-sending">
+                    <p class="title">Thời điểm gởi thông báo trên App mobile</p>
+
+                    <div class="container">
+                        <kendo-button #openDateTimePicker (click)="showDateTimePicker = !showDateTimePicker"
+                            icon="calendar"></kendo-button>
+                        <kendo-dateinput format="dd/MM/yyyy h:mm a" [value]="valueDateTime">
+                        </kendo-dateinput>
+                        <kendo-popup popupClass="date-time-picker" [anchor]="openDateTimePicker.element"
+                            *ngIf="showDateTimePicker">
+                            <kendo-calendar type="classic" [value]="valueDate" (valueChange)="onChangeDate($event)">
+                                <ng-template kendoCalendarHeaderTitleTemplate let-title>
+                                    {{'Tháng ' + title.charAt(6) + ', ' + title.slice(7)}}
+                                </ng-template>
+                            </kendo-calendar>
+                            <div class="time-picker">
+                                <span class="all-day">
+                                    <input (change)="onDisabledTimePicker()" class="check-all-day" type="checkbox"
+                                        id="allDay" kendoCheckBox>
+                                    <kendo-label class="label-all-day" for="allDay" text="Cả ngày"></kendo-label>
+                                </span>
+                                <span class="select-time">
+                                    <kendo-dropdownlist [disabled]="isTimePickerDisabled" [data]="timeItems"
+                                        textField="text" valueField="value" iconClass="fa-solid fa-chevron-down"
+                                        [defaultItem]="defaultTime" fillMode="none"
+                                        (valueChange)="onChangeTime($event)"></kendo-dropdownlist>
+                                    <span class="time-btns-container">
+                                        <kendo-button (click)="onMorning()" [disabled]="isTimePickerDisabled"
+                                            class="am-btn">AM</kendo-button>
+                                        <kendo-button (click)="onEvening()" [disabled]="isTimePickerDisabled"
+                                            class="pm-btn">PM</kendo-button>
+                                    </span>
+                                </span>
+
+                            </div>
+                        </kendo-popup>
+                    </div>
+                </div>
+                <div class="sent-object">
+                    <p class="title">Đối tượng gởi thông báo trên App mobile</p>
+                    <div class="radios-container">
+                        <span class="span-1">
+                            <input id="allObject" type="radio" name="sentObject" kendoRadioButton>
+                            <kendo-label for="allObject" text="Tất cả đối tượng nhận coupon tải app"></kendo-label>
+                        </span>
+                        <span class="span-2">
+                            <input id="khttApp" type="radio" name="sentObject" kendoRadioButton>
+                            <kendo-label for="khttApp" text="Tất cả KHTT tải app"></kendo-label>
+                        </span>
+                        <span class="span-3">
+                            <input id="appCustomer" type="radio" name="sentObject" kendoRadioButton>
+                            <kendo-label for="appCustomer" text="Tất cả khách hàng tải app"></kendo-label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="program-details">
+            <div class="header">
+                <div class="header-1">
+                    <p class="title">THÔNG TIN CHI TIẾT CHƯƠNG TRÌNH</p>
+                    <kendo-textbox #filterTextBox placeholder="Tìm theo barcode, poscode, tên sản phẩm"
+                        (valueChange)="onChangeFilter($event)">
+                        <ng-template kendoTextBoxPrefixTemplate>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </ng-template>
+                    </kendo-textbox>
+                    <kendo-button (click)="handleFilter(filterTextBox.value)" class="search-btn"
+                        iconClass="fa-solid fa-magnifying-glass">Tìm</kendo-button>
+                </div>
+                <div class="header-2">
+                    <kendo-button class="export-btn" iconClass="fa-solid fa-arrow-up-from-bracket"></kendo-button>
+                    <kendo-button class="download-btn" iconClass="fa-solid fa-download">Template</kendo-button>
+                    <kendo-button class="add-btn" iconClass="fa-solid fa-plus" (click)="newProductDrawer.toggle()">THÊM
+                        MỚI SẢN PHẨM</kendo-button>
+                </div>
+
+            </div>
+            <div class="grid-content">
+                <kendo-grid [kendoGridBinding]="productData" scrollable="none" [pageable]="true" [pageSize]="15">
+                    <kendo-grid-column>
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <kendo-button (click)="onOpenDeleteDialog(dataItem.Code, dataItem.ProductName)"
+                                class="delete-btn" iconClass="fa-solid fa-trash-can"></kendo-button>
+                            <kendo-button class="drawer-edit-btn" iconClass="fa-solid fa-pencil"
+                                (click)="onOpenEditProduct(editProductDrawer, dataItem.Code, dataItem.Barcode)"></kendo-button>
+                            <kendo-button class="dialog-edit-btn" iconClass="fa-solid fa-pencil"
+                                (click)="onOpenDialog(dataItem.Code, dataItem.Barcode)"></kendo-button>
+                            <div class="grid-cell">
+                                <img style="width:100px; height: 100px;"
+                                    src="http://test.lapson.vn/{{dataItem.ImageThumb}}" />
+                                <div class="grid-cell-child" style="display: flex; flex-direction: column;">
+                                    <span class="text">{{dataItem.ProductName}}</span>
+                                    <span class="text">{{dataItem.Barcode}}</span>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                        <kendo-pager-page-sizes class="page-sizes" [pageSizes]="sizes"></kendo-pager-page-sizes>
+                        <div style="display: flex; float: right;">
+                            <kendo-pager-prev-buttons class="prev-btn"></kendo-pager-prev-buttons>
+                            <kendo-pager-numeric-buttons class="count-btn" class="custom-btn"
+                                [buttonCount]="buttonCount"></kendo-pager-numeric-buttons>
+                            <kendo-pager-next-buttons class="next-btn"></kendo-pager-next-buttons>
+                        </div>
+                    </ng-template>
+                </kendo-grid>
+            </div>
+        </div>
+    </kendo-drawer-content>
+</kendo-drawer-container>

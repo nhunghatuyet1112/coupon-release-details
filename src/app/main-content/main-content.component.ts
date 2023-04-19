@@ -1,0 +1,318 @@
+import { Component, ViewEncapsulation } from '@angular/core';
+import { IntlService } from "@progress/kendo-angular-intl";
+import { Product } from '../product';
+import { ProductlistService } from '../productlist.service';
+import { PopupSettings } from '@progress/kendo-angular-dateinputs';
+import { State } from '@progress/kendo-data-query';
+
+
+import * as $ from 'jquery'
+
+@Component({
+  selector: 'app-main-content',
+  templateUrl: './main-content.component.html',
+  styleUrls: ['./main-content.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+})
+export class MainContentComponent {
+  constructor(public intl: IntlService, private productList: ProductlistService) {
+
+  }
+  public filterValue: string = '4';
+  private initialFilterState: State = {
+    skip: 1,
+    take: 50,
+    filter: {
+      logic: 'or',
+      filters: [
+        { field: 'Barcode', operator: 'contains', value: '4', ignoreCase: true }
+      ]
+    },
+    sort: [{ field: 'Code', dir: 'desc' }]
+  }
+  public productData: Product[] = [];
+  public productDetail: Product = { Code: 0, ImageThumb: '', ProductName: '', Barcode: '' };
+  public addDrawerExpanded = false;
+  public editDrawerExpanded = false;
+  public today: Date = new Date();
+  public range = { start: new Date(this.today), end: new Date() };
+  public min: Date = new Date(2021, 9, 26);
+  public max: Date = new Date(2100, 9, 26);
+  public masterSelected = false;
+  public radioSelected1 = false;
+  public radioSelected2 = false;
+  public isDisabled = false;
+  public isHidden = false;
+  public buttonCount = 2;
+  public sizes = [35, 50];
+  public isLanguage: string = 'vi';
+  public isNoti: string = 'SMS';
+  public selectedList = [
+    { id: 'pasteur', value: 'CH Hachi Hachi Pasteur', isSelected: false },
+    { id: 'nvt', value: 'CH Hachi Hachi NVT', isSelected: false },
+    { id: 'cmt8', value: 'CH Hachi Hachi CMT8', isSelected: false },
+    { id: 'pmh', value: 'CH Hachi Hachi PMH', isSelected: false },];
+  public valueDate: Date = new Date();
+  public defaultTime: { text: string; value: { hour: number, minutes: number } } = {
+    text: "hh:mm",
+    value: { hour: 1, minutes: 0 },
+  }
+  public timeItems: Array<{ text: string, value: { hour: number, minutes: number } }> = [
+    { text: '1 : 00', value: { hour: 1, minutes: 0 } },
+    { text: '1 : 30', value: { hour: 1, minutes: 30 } },
+    { text: '2 : 00', value: { hour: 2, minutes: 0 } },
+    { text: '2 : 30', value: { hour: 2, minutes: 30 } },
+    { text: '3 : 00', value: { hour: 3, minutes: 0 } },
+    { text: '3 : 30', value: { hour: 3, minutes: 30 } },
+    { text: '4 : 00', value: { hour: 4, minutes: 0 } },
+    { text: '4 : 30', value: { hour: 4, minutes: 30 } },
+    { text: '5 : 00', value: { hour: 5, minutes: 0 } },
+    { text: '5 : 30', value: { hour: 5, minutes: 30 } },
+    { text: '6 : 00', value: { hour: 6, minutes: 0 } },
+    { text: '6 : 00', value: { hour: 6, minutes: 30 } },
+    { text: '7 : 00', value: { hour: 7, minutes: 0 } },
+    { text: '7 : 00', value: { hour: 7, minutes: 30 } },
+    { text: '8 : 00', value: { hour: 8, minutes: 0 } },
+    { text: '8 : 00', value: { hour: 8, minutes: 30 } },
+    { text: '9 : 00', value: { hour: 9, minutes: 0 } },
+    { text: '9 : 00', value: { hour: 9, minutes: 30 } },
+    { text: '10 : 00', value: { hour: 10, minutes: 0 } },
+    { text: '10 : 00', value: { hour: 10, minutes: 30 } },
+    { text: '11 : 00', value: { hour: 11, minutes: 0 } },
+    { text: '11 : 00', value: { hour: 11, minutes: 30 } },
+    { text: '12 : 00', value: { hour: 12, minutes: 0 } },
+    { text: '12 : 30', value: { hour: 12, minutes: 30 } },
+  ]
+  public valueTime!: { hour: number, minutes: number };
+  public valueDateTime = new Date();
+
+  public showDateTimePicker = false;
+  public isTimePickerDisabled = false;
+
+  public isDialogOpened = false;
+  public isDeleteDialogOpened = false;
+
+  ngOnInit(): void {
+    this.getProducts();
+    $(document).ready(() => {
+      $('.k-input-button').click(() => {
+        $('button').remove(".k-calendar-nav-today");
+      })
+
+      document.getElementById('usages')?.setAttribute('dir', 'rtl');
+      document.getElementById('limit')?.setAttribute('dir', 'rtl');
+      document.getElementById('minimum')?.setAttribute('dir', 'rtl');
+
+      //Grid Pager
+      $('.page-sizes kendo-label').text('Hiển thị mỗi trang');
+      $('.page-sizes .k-dropdown .k-input-inner').css({ 'font-weight': '400', 'font-size': '13px', 'line-height': '16px', 'color': '#26282E' })
+      $('.page-sizes .k-dropdown').css({ 'border-style': 'none', 'background-color': '#EDEFF3' });
+      $('.k-pager-first').text('Đầu');
+      $('.k-pager-first').css({ 'color': '#959DB3' });
+      $('kendo-dropdownlist').removeClass("k-picker-solid");
+      $(".prev-btn .k-pager-first").addClass('k-pager-first-text');
+      $(".k-pager-first-text").removeClass('k-pager-nav');
+      $(".prev-btn .k-pager-first-text").attr("style", "background-color:#F4F5F7!important");
+      $(".prev-btn .k-pager-first-text").css({ 'border-radius': '5px' })
+      $(".prev-btn .k-pager-nav").empty();
+      var prevBtn = '<i class="fa-solid fa-chevron-left"></i>';
+      $(".prev-btn .k-pager-nav").append(prevBtn);
+      $(".prev-btn .k-pager-nav").attr("style", "background-color:#F4F5F7!important");
+      $(".prev-btn .k-pager-nav").css({ 'height': '29px', 'width': '20px', 'margin': '0px 10px 0px 10px', 'border-radius': '3px' })
+      $(".prev-btn .k-pager-nav i").attr("style", "background-color:#F4F5F7!important");
+      $('.k-dropdown').click(() => {
+        $('.k-list-md .k-list-content .k-list-ul .k-selected').css('background-color', '#008000');
+      })
+      $('.k-pager-numbers .k-selected').attr("style", "background-color:#959DB3!important");
+      $('.k-pager-numbers .k-selected').css({ 'color': '#FFFFFF', 'border-radius': '5px', 'padding': '0', 'min-width': 'calc(1.4285714286em + 1px)' });
+      $('.k-pager-last').text('Cuối');
+      $(".k-pager-last").attr("style", "background-color:#FFFFFF!important");
+      $('.k-pager-last').css({ 'color': '#959DB3', 'font-weight': '400', 'border-radius': '5px' });
+      $('.next-btn :first-child').empty();
+      var nextBtn = '<i class="fa-solid fa-chevron-right"></i>';
+      $('.next-btn :first-child').append(nextBtn);
+      $(".next-btn :first-child").attr("style", "background-color:#FFFFFF!important");
+      $(".next-btn :first-child").css({ 'height': '29px', 'width': '20px', 'margin': '0px 10px 0px 5px', 'border-radius': '3px' })
+      $(".next-btn :first-child i").attr("style", "background-color:#FFFFFF!important");
+      $(".next-btn :first-child i").css('color', '#959DB3');
+
+    })
+  }
+
+
+  getProducts() {
+    this.productList.getProducts(this.initialFilterState).subscribe(products => {
+      this.productData = products.ObjectReturn.Data;
+    })
+  }
+
+  public onChangeFilter(value: any) {
+    this.filterValue = value;
+  }
+
+  public handleFilter(value: string) {
+    let filterState: State = {
+      skip: 1,
+      take: 50,
+      filter: {
+        logic: 'or',
+        filters: [
+          { field: 'Barcode', operator: 'contains', value: value, ignoreCase: true },
+          { field: 'ProductName', operator: 'contains', value: value, ignoreCase: true },
+          { field: 'Poscode', operator: 'contains', value: value, ignoreCase: true }
+        ]
+      },
+      sort: [{ field: 'Code', dir: 'desc' }]
+    }
+    this.productList.getProducts(filterState).subscribe(products => {
+      this.productData = products.ObjectReturn.Data;
+    })
+  }
+
+  public onDisabledTimePicker(): void {
+    this.isTimePickerDisabled = !this.isTimePickerDisabled;
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), 0, 0);
+  }
+
+
+  public onChangeDate(value: Date): void {
+    this.valueDate = value;
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
+  }
+
+  public onChangeTime(time: any): void {
+    this.valueTime = time.value;
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
+  }
+
+  public onMorning(): void {
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
+  }
+
+  public onEvening(): void {
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour + 12, this.valueTime.minutes);
+  }
+
+
+  checkUncheckAll(): void {
+    for (var i = 0; i < this.selectedList.length; i++) {
+      this.selectedList[i].isSelected = this.masterSelected;
+    }
+  }
+  isAllSelected() {
+    this.masterSelected = this.selectedList.every(function (item: any) {
+      return item.isSelected == true;
+    })
+  }
+  disabledDates = (date: Date): boolean => {
+    return date.getMonth() < this.today.getMonth();
+  }
+
+  handlePublicCoupon(): any {
+    if (this.radioSelected1 = true) {
+      this.isDisabled = true;
+    }
+  }
+  handlePersonalCoupon(): any {
+    if (this.radioSelected2 = true) {
+      this.isDisabled = false;
+    }
+  }
+
+  onJapanLanguage(): string {
+    return this.isLanguage = 'ja';
+  }
+  onEnglishLanguage(): string {
+    return this.isLanguage = 'en';
+  }
+  onVietnamese(): string {
+    return this.isLanguage = 'vi';
+  }
+
+  onSMS(): string {
+    return this.isNoti = 'SMS';
+  }
+
+  onMobileApp(): string {
+    return this.isNoti = 'Mobile App';
+  }
+
+  onCart(): string {
+    return this.isNoti = 'Cart';
+  }
+
+  onOpenEditProduct(drawer: any, code: number, barcode: string) {
+    drawer.toggle();
+    this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
+      this.productDetail = product.ObjectReturn;
+      console.log(this.productDetail);
+    })
+  }
+
+  onCloseEditDrawer(event: any) {
+    event.toggle()
+  }
+
+  onChangeName(value: string) {
+    this.productDetail.ProductName = value;
+  }
+
+  onEditProduct(drawer: any, name: string, barcode: string) {
+    this.productData.map(p => {
+      if (p.Code === this.productDetail.Code) {
+        p.ProductName = name;
+        p.Barcode = barcode;
+      }
+    })
+    drawer.toggle();
+  }
+
+  onOpenDialog(code: number, barcode: string) {
+    this.isDialogOpened = !this.isDialogOpened;
+    this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
+      this.productDetail = product.ObjectReturn;
+      // console.log(this.productDetail);
+    })
+  }
+
+  onCloseDialog() {
+    this.isDialogOpened = false;
+    this.isDeleteDialogOpened = false;
+  }
+
+  onEditProductDialog(name: string, barcode: string) {
+    this.productData.map(p => {
+      if (p.Code === this.productDetail.Code) {
+        p.ProductName = name;
+        p.Barcode = barcode;
+      }
+    })
+    this.isDialogOpened = false;
+  }
+
+  onOpenDeleteDialog(value: number, name: string) {
+    this.isDeleteDialogOpened = true;
+    this.productDetail.Code = value;
+    this.productDetail.ProductName = name;
+  }
+
+  onDeleteProduct() {
+    let productIndex = this.productData.findIndex(p => p.Code === this.productDetail.Code);
+    let arr = this.productData;
+    arr.splice(productIndex, 1);
+    this.isDeleteDialogOpened = false;
+    this.productData = [...arr];
+  }
+
+  public popupSettings2: PopupSettings = {
+    appendTo: "component",
+    animate: false,
+    popupClass: "datetime-container",
+  };
+
+}
