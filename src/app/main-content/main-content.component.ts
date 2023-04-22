@@ -4,8 +4,6 @@ import { Product } from '../product';
 import { ProductlistService } from '../productlist.service';
 import { PopupSettings } from '@progress/kendo-angular-dateinputs';
 import { State } from '@progress/kendo-data-query';
-
-
 import * as $ from 'jquery'
 
 @Component({
@@ -18,6 +16,8 @@ export class MainContentComponent {
   constructor(public intl: IntlService, private productList: ProductlistService) {
 
   }
+  ////////============================VARIABLES============================\\\\\\\\
+  //============================FILTER============================\\
   public filterValue: string = '4';
   private initialFilterState: State = {
     skip: 1,
@@ -30,28 +30,68 @@ export class MainContentComponent {
     },
     sort: [{ field: 'Code', dir: 'desc' }]
   }
+  //============================FILTER============================\\
+
+
+
+  //============================PRODUCT LIST & DETAILS============================\\
   public productData: Product[] = [];
   public productDetail: Product = { Code: 0, ImageThumb: '', ProductName: '', Barcode: '' };
+  //============================PRODUCT LIST & DETAILS============================\\
+
+
+  //============================ADD & EDIT DRAWER============================\\
   public addDrawerExpanded = false;
   public editDrawerExpanded = false;
+  //============================ADD & EDIT DRAWER============================\\
+
+
+  //============================EDIT & DELETE DIALOG============================\\
+  public isEditDialogOpened = false;
+  public isDeleteDialogOpened = false;
+  //============================EDIT & DELETE DIALOG============================\\
+
+
+  //============================LANGUAGE============================\\
+  public isLanguage: string = 'vi';
+  //============================LANGUAGE============================\\
+
+
+  //============================DATERANGE============================\\
   public today: Date = new Date();
   public range = { start: new Date(this.today), end: new Date() };
   public min: Date = new Date(2021, 9, 26);
   public max: Date = new Date(2100, 9, 26);
+  public popupSettings2: PopupSettings = {
+    appendTo: "component",
+    animate: false,
+    popupClass: "date-container",
+  };
+  //============================DATERANGE============================\\
+
+  //============================STORE UNITS============================\\
   public masterSelected = false;
-  public radioSelected1 = false;
-  public radioSelected2 = false;
-  public isDisabled = false;
-  public isHidden = false;
-  public buttonCount = 2;
-  public sizes = [35, 50];
-  public isLanguage: string = 'vi';
-  public isNoti: string = 'SMS';
   public selectedList = [
     { id: 'pasteur', value: 'CH Hachi Hachi Pasteur', isSelected: false },
     { id: 'nvt', value: 'CH Hachi Hachi NVT', isSelected: false },
     { id: 'cmt8', value: 'CH Hachi Hachi CMT8', isSelected: false },
     { id: 'pmh', value: 'CH Hachi Hachi PMH', isSelected: false },];
+  //============================STORE UNITS============================\\
+
+
+  //============================COUPON CLASSIFICATION RADIO BUTTON STATE============================\\
+  public radioSelected1 = false;
+  public radioSelected2 = false;
+  public isDisabled = false;
+  //============================COUPON CLASSIFICATION RADIO BUTTON STATE============================\\
+
+
+  //============================NOTIFICATION TYPE============================\\
+  public isNoti: string = 'SMS';
+  //============================NOTIFICATION TYPE============================\\
+
+
+  //============================DATETIME PICKER============================\\
   public valueDate: Date = new Date();
   public defaultTime: { text: string; value: { hour: number, minutes: number } } = {
     text: "hh:mm",
@@ -85,13 +125,216 @@ export class MainContentComponent {
   ]
   public valueTime!: { hour: number, minutes: number };
   public valueDateTime = new Date();
-
   public showDateTimePicker = false;
   public isTimePickerDisabled = false;
+  //============================DATETIME PICKER============================\\
 
-  public isDialogOpened = false;
-  public isDeleteDialogOpened = false;
+  //============================GRID PAGER============================\\
+  public buttonCount = 2;
+  public sizes = [35, 50];
+  //============================GRID PAGER============================\\
 
+
+  ////////============================VARIABLES============================\\\\\\\\
+
+
+  ////////============================FUCTIONS============================\\\\\\\\
+
+  //============================GET PRODUCT LIST============================\\
+  getProducts() {
+    this.productList.getProducts(this.initialFilterState).subscribe(products => {
+      console.log(products);
+      this.productData = products.ObjectReturn.Data;
+    })
+  }
+  //============================GET PRODUCT LIST============================\\
+
+
+  //============================HANDLE FILTER INPUT============================\\
+  public onChangeFilter(value: any) {
+    this.filterValue = value;
+  }
+
+  public handleFilter(value: string) {
+    let filterState: State = {
+      skip: 1,
+      take: 50,
+      filter: {
+        logic: 'or',
+        filters: [
+          { field: 'Barcode', operator: 'contains', value: value, ignoreCase: true },
+          { field: 'ProductName', operator: 'contains', value: value, ignoreCase: true },
+          { field: 'Poscode', operator: 'contains', value: value, ignoreCase: true }
+        ]
+      },
+      sort: [{ field: 'Code', dir: 'desc' }]
+    }
+    this.productList.getProducts(filterState).subscribe(products => {
+      this.productData = products.ObjectReturn.Data;
+    })
+  }
+  //============================HANDLE FILTER INPUT============================\\
+
+
+  //============================CHANGE LANGUAGE============================\\
+  onJapanLanguage(): string {
+    return this.isLanguage = 'ja';
+  }
+  onEnglishLanguage(): string {
+    return this.isLanguage = 'en';
+  }
+  onVietnamese(): string {
+    return this.isLanguage = 'vi';
+  }
+  //============================CHANGE LANGUAGE============================\\
+
+  //============================DATERANGE============================\\
+  disabledDates = (date: Date): boolean => {
+    return date.getMonth() < this.today.getMonth();
+  }
+  //============================DATERANGE============================\\
+
+  //============================DATETIME PICKER============================\\
+  public onDisabledTimePicker(): void {
+    this.isTimePickerDisabled = !this.isTimePickerDisabled;
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), 0, 0);
+  }
+
+
+  public onChangeDate(value: Date): void {
+    this.valueDate = value;
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
+  }
+
+  public onChangeTime(time: any): void {
+    this.valueTime = time.value;
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
+  }
+
+  public onMorning(): void {
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
+  }
+
+  public onEvening(): void {
+    this.valueDateTime = new Date(this.valueDate.getFullYear(),
+      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour + 12, this.valueTime.minutes);
+  }
+  //============================DATETIME PICKER============================\\
+
+
+  //============================CHECK STORE UNIT============================\\
+  checkUncheckAll(): void {
+    for (var i = 0; i < this.selectedList.length; i++) {
+      this.selectedList[i].isSelected = this.masterSelected;
+    }
+  }
+  isAllSelected() {
+    this.masterSelected = this.selectedList.every(function (item: any) {
+      return item.isSelected == true;
+    })
+  }
+  //============================CHECK STORE UNIT============================\\
+
+  //============================CLASSIFIED COUPON============================\\
+  handlePublicCoupon(): any {
+    if (this.radioSelected1 = true) {
+      this.isDisabled = true;
+    }
+  }
+  handlePersonalCoupon(): any {
+    if (this.radioSelected2 = true) {
+      this.isDisabled = false;
+    }
+  }
+  //============================CLASSIFIED COUPON============================\\
+
+  //============================HANDLE NOTIFICATION TYPE============================\\
+  onSMS(): string {
+    return this.isNoti = 'SMS';
+  }
+
+  onMobileApp(): string {
+    return this.isNoti = 'Mobile App';
+  }
+
+  onCart(): string {
+    return this.isNoti = 'Cart';
+  }
+  //============================HANDLE NOTIFICATION TYPE============================\\
+
+  //============================HANDLE EDIT PRODUCT============================\\
+  onChangeProductName(value: string) {
+    this.productDetail.ProductName = value;
+  }
+  ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  onOpenEditProductDrawer(drawer: any, code: number, barcode: string) {
+    drawer.toggle();
+    this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
+      this.productDetail = product.ObjectReturn;
+      console.log(this.productDetail);
+    })
+  }
+
+  onCloseEditProductDrawer(event: any) {
+    event.toggle()
+  }
+
+  onSubmitEditProductDrawer(drawer: any, name: string, barcode: string) {
+    this.productData.map(p => {
+      if (p.Code === this.productDetail.Code) {
+        p.ProductName = name;
+        p.Barcode = barcode;
+      }
+    })
+    drawer.toggle();
+  }
+  ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  ////////////////////////////////////DIALOG\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  onOpenEditProductDialog(code: number, barcode: string) {
+    this.isEditDialogOpened = !this.isEditDialogOpened;
+    this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
+      this.productDetail = product.ObjectReturn;
+    })
+  }
+
+  onCloseDialog() {
+    this.isEditDialogOpened = false;
+    this.isDeleteDialogOpened = false;
+  }
+
+  onSubmitEditProductDialog(name: string, barcode: string) {
+    this.productData.map(p => {
+      if (p.Code === this.productDetail.Code) {
+        p.ProductName = name;
+        p.Barcode = barcode;
+      }
+    })
+    this.isEditDialogOpened = false;
+  }
+  ////////////////////////////////////DIALOG\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //============================HANDLE EDIT PRODUCT============================\\
+
+
+  //============================HANDLE DELETE PRODUCT DIALOG============================\\
+  onOpenDeleteDialog(value: number, name: string) {
+    this.isDeleteDialogOpened = true;
+    this.productDetail.Code = value;
+    this.productDetail.ProductName = name;
+  }
+
+  onDeleteProduct() {
+    let productIndex = this.productData.findIndex(p => p.Code === this.productDetail.Code);
+    let arr = this.productData;
+    arr.splice(productIndex, 1);
+    this.isDeleteDialogOpened = false;
+    this.productData = [...arr];
+  }
+  //============================HANDLE DELETE PRODUCT DIALOG============================\\
   ngOnInit(): void {
     this.getProducts();
     $(document).ready(() => {
@@ -138,181 +381,5 @@ export class MainContentComponent {
 
     })
   }
-
-
-  getProducts() {
-    this.productList.getProducts(this.initialFilterState).subscribe(products => {
-      this.productData = products.ObjectReturn.Data;
-    })
-  }
-
-  public onChangeFilter(value: any) {
-    this.filterValue = value;
-  }
-
-  public handleFilter(value: string) {
-    let filterState: State = {
-      skip: 1,
-      take: 50,
-      filter: {
-        logic: 'or',
-        filters: [
-          { field: 'Barcode', operator: 'contains', value: value, ignoreCase: true },
-          { field: 'ProductName', operator: 'contains', value: value, ignoreCase: true },
-          { field: 'Poscode', operator: 'contains', value: value, ignoreCase: true }
-        ]
-      },
-      sort: [{ field: 'Code', dir: 'desc' }]
-    }
-    this.productList.getProducts(filterState).subscribe(products => {
-      this.productData = products.ObjectReturn.Data;
-    })
-  }
-
-  public onDisabledTimePicker(): void {
-    this.isTimePickerDisabled = !this.isTimePickerDisabled;
-    this.valueDateTime = new Date(this.valueDate.getFullYear(),
-      this.valueDate.getMonth(), this.valueDate.getDate(), 0, 0);
-  }
-
-
-  public onChangeDate(value: Date): void {
-    this.valueDate = value;
-    this.valueDateTime = new Date(this.valueDate.getFullYear(),
-      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
-  }
-
-  public onChangeTime(time: any): void {
-    this.valueTime = time.value;
-    this.valueDateTime = new Date(this.valueDate.getFullYear(),
-      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
-  }
-
-  public onMorning(): void {
-    this.valueDateTime = new Date(this.valueDate.getFullYear(),
-      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour, this.valueTime.minutes);
-  }
-
-  public onEvening(): void {
-    this.valueDateTime = new Date(this.valueDate.getFullYear(),
-      this.valueDate.getMonth(), this.valueDate.getDate(), this.valueTime.hour + 12, this.valueTime.minutes);
-  }
-
-
-  checkUncheckAll(): void {
-    for (var i = 0; i < this.selectedList.length; i++) {
-      this.selectedList[i].isSelected = this.masterSelected;
-    }
-  }
-  isAllSelected() {
-    this.masterSelected = this.selectedList.every(function (item: any) {
-      return item.isSelected == true;
-    })
-  }
-  disabledDates = (date: Date): boolean => {
-    return date.getMonth() < this.today.getMonth();
-  }
-
-  handlePublicCoupon(): any {
-    if (this.radioSelected1 = true) {
-      this.isDisabled = true;
-    }
-  }
-  handlePersonalCoupon(): any {
-    if (this.radioSelected2 = true) {
-      this.isDisabled = false;
-    }
-  }
-
-  onJapanLanguage(): string {
-    return this.isLanguage = 'ja';
-  }
-  onEnglishLanguage(): string {
-    return this.isLanguage = 'en';
-  }
-  onVietnamese(): string {
-    return this.isLanguage = 'vi';
-  }
-
-  onSMS(): string {
-    return this.isNoti = 'SMS';
-  }
-
-  onMobileApp(): string {
-    return this.isNoti = 'Mobile App';
-  }
-
-  onCart(): string {
-    return this.isNoti = 'Cart';
-  }
-
-  onOpenEditProduct(drawer: any, code: number, barcode: string) {
-    drawer.toggle();
-    this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
-      this.productDetail = product.ObjectReturn;
-      console.log(this.productDetail);
-    })
-  }
-
-  onCloseEditDrawer(event: any) {
-    event.toggle()
-  }
-
-  onChangeName(value: string) {
-    this.productDetail.ProductName = value;
-  }
-
-  onEditProduct(drawer: any, name: string, barcode: string) {
-    this.productData.map(p => {
-      if (p.Code === this.productDetail.Code) {
-        p.ProductName = name;
-        p.Barcode = barcode;
-      }
-    })
-    drawer.toggle();
-  }
-
-  onOpenDialog(code: number, barcode: string) {
-    this.isDialogOpened = !this.isDialogOpened;
-    this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
-      this.productDetail = product.ObjectReturn;
-      // console.log(this.productDetail);
-    })
-  }
-
-  onCloseDialog() {
-    this.isDialogOpened = false;
-    this.isDeleteDialogOpened = false;
-  }
-
-  onEditProductDialog(name: string, barcode: string) {
-    this.productData.map(p => {
-      if (p.Code === this.productDetail.Code) {
-        p.ProductName = name;
-        p.Barcode = barcode;
-      }
-    })
-    this.isDialogOpened = false;
-  }
-
-  onOpenDeleteDialog(value: number, name: string) {
-    this.isDeleteDialogOpened = true;
-    this.productDetail.Code = value;
-    this.productDetail.ProductName = name;
-  }
-
-  onDeleteProduct() {
-    let productIndex = this.productData.findIndex(p => p.Code === this.productDetail.Code);
-    let arr = this.productData;
-    arr.splice(productIndex, 1);
-    this.isDeleteDialogOpened = false;
-    this.productData = [...arr];
-  }
-
-  public popupSettings2: PopupSettings = {
-    appendTo: "component",
-    animate: false,
-    popupClass: "datetime-container",
-  };
-
+  ////////============================FUCTIONS============================\\\\\\\\
 }

@@ -1,19 +1,22 @@
 <kendo-drawer-container class="main-content-drawer">
+
     <kendo-drawer #newProductDrawer mode="overlay" [(expanded)]="addDrawerExpanded" position="end">
         <ng-template kendoDrawerTemplate ngIf="addDrawerExpanded">
-            <app-add-new-drawer (closeEditDrawer)="onCloseEditDrawer(newProductDrawer)"></app-add-new-drawer>
+            <app-add-new-drawer (closeEditDrawer)="onCloseEditProductDrawer(newProductDrawer)"></app-add-new-drawer>
         </ng-template>
     </kendo-drawer>
+
     <kendo-drawer #editProductDrawer mode="overlay" [(expanded)]="editDrawerExpanded" position="end">
         <ng-template kendoDrawerTemplate ngIf="editDrawerExpanded">
             <app-add-new-drawer [productName]="productDetail.ProductName" [Barcode]="productDetail.Barcode"
-                [ImageUrl]="productDetail.ImageThumb" (closeEditDrawer)="onCloseEditDrawer(editProductDrawer)"
-                (changeProductName)="onChangeName($event)"
-                (editProductClick)="onEditProduct(editProductDrawer, productDetail.ProductName, productDetail.Barcode)">
+                [ImageUrl]="productDetail.ImageThumb" (closeEditDrawer)="onCloseEditProductDrawer(editProductDrawer)"
+                (changeProductName)="onChangeProductName($event)"
+                (editProductClick)="onSubmitEditProductDrawer(editProductDrawer, productDetail.ProductName, productDetail.Barcode)">
             </app-add-new-drawer>
         </ng-template>
     </kendo-drawer>
-    <kendo-dialog #editProductDialog class="edit-product-dialog" *ngIf="isDialogOpened" (close)="onCloseDialog()">
+
+    <kendo-dialog #editProductDialog class="edit-product-dialog" *ngIf="isEditDialogOpened" (close)="onCloseDialog()">
         <kendo-dialog-titlebar>THÊM MỚI SẢN PHẨM</kendo-dialog-titlebar>
         <form class="add-new-form">
             <span class="input-barcode">
@@ -25,7 +28,7 @@
                 <kendo-label class="kendo-label" for="productName" text="Tên sản phẩm"></kendo-label>
                 <kendo-textbox class="kendo-textbox" id="productName"
                     placeholder="Tủ nhựa 5 ngăn Sanka 34x42x107cm - Trắng kem " value="{{productDetail.ProductName}}"
-                    (valueChange)="onChangeName($event)"></kendo-textbox>
+                    (valueChange)="onChangeProductName($event)"></kendo-textbox>
             </span>
             <span>
                 <img style="width: 100px; height: 100px;" src="http://test.lapson.vn/{{productDetail.ImageThumb}}">
@@ -34,9 +37,11 @@
         <kendo-dialog-actions>
             <kendo-button class="close-dialog-btn" (click)="onCloseDialog()">ĐÓNG</kendo-button>
             <kendo-button class="update-product-btn"
-                (click)="onEditProductDialog(productDetail.ProductName, productDetail.Barcode)">CẬP NHẬT</kendo-button>
+                (click)="onSubmitEditProductDialog(productDetail.ProductName, productDetail.Barcode)">CẬP
+                NHẬT</kendo-button>
         </kendo-dialog-actions>
     </kendo-dialog>
+
     <kendo-dialog #deleteProductDialog class="delete-product-dialog" *ngIf="isDeleteDialogOpened"
         (close)="onCloseDialog()">
         <kendo-dialog-titlebar>XÓA SẢN PHẨM</kendo-dialog-titlebar>
@@ -48,6 +53,7 @@
                 (click)="onDeleteProduct()">XÓA</kendo-button>
         </kendo-dialog-actions>
     </kendo-dialog>
+
     <kendo-drawer-content>
         <app-header></app-header>
         <div class="coupon-info-container">
@@ -305,7 +311,7 @@
                             *ngIf="showDateTimePicker">
                             <kendo-calendar type="classic" [value]="valueDate" (valueChange)="onChangeDate($event)">
                                 <ng-template kendoCalendarHeaderTitleTemplate let-title>
-                                    {{'Tháng ' + title.charAt(6) + ', ' + title.slice(7)}}
+                                    {{'Tháng ' + title.charAt(9) + ', ' + title.slice(7)}}
                                 </ng-template>
                             </kendo-calendar>
                             <div class="time-picker">
@@ -370,7 +376,6 @@
                     <kendo-button class="add-btn" iconClass="fa-solid fa-plus" (click)="newProductDrawer.toggle()">THÊM
                         MỚI SẢN PHẨM</kendo-button>
                 </div>
-
             </div>
             <div class="grid-content">
                 <kendo-grid [kendoGridBinding]="productData" scrollable="none" [pageable]="true" [pageSize]="15">
@@ -379,9 +384,9 @@
                             <kendo-button (click)="onOpenDeleteDialog(dataItem.Code, dataItem.ProductName)"
                                 class="delete-btn" iconClass="fa-solid fa-trash-can"></kendo-button>
                             <kendo-button class="drawer-edit-btn" iconClass="fa-solid fa-pencil"
-                                (click)="onOpenEditProduct(editProductDrawer, dataItem.Code, dataItem.Barcode)"></kendo-button>
+                                (click)="onOpenEditProductDrawer(editProductDrawer, dataItem.Code, dataItem.Barcode)"></kendo-button>
                             <kendo-button class="dialog-edit-btn" iconClass="fa-solid fa-pencil"
-                                (click)="onOpenDialog(dataItem.Code, dataItem.Barcode)"></kendo-button>
+                                (click)="onOpenEditProductDialog(dataItem.Code, dataItem.Barcode)"></kendo-button>
                             <div class="grid-cell">
                                 <img style="width:100px; height: 100px;"
                                     src="http://test.lapson.vn/{{dataItem.ImageThumb}}" />
