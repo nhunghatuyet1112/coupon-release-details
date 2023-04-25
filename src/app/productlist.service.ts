@@ -11,6 +11,7 @@ export class ProductlistService {
   private url: string = "http://test.lapson.vn/api/product/GetListProduct";
   private url2: string = "http://test.lapson.vn/api/product/GetProduct";
   private url3: string = "http://test.lapson.vn/api/product/UpdateProduct";
+  private url4: string = "http://test.lapson.vn/api/product/DeleteListProduct";
 
   constructor(private http: HttpClient) { }
 
@@ -25,5 +26,9 @@ export class ProductlistService {
 
   updateProduct(body: any): Observable<any> {
     return this.http.post(this.url3, body);
+  }
+
+  deleteProduct(body: any): Observable<any> {
+    return this.http.post(this.url4, body);
   }
 }
