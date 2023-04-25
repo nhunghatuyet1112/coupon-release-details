@@ -6,7 +6,6 @@
     width: 100%;
     float: right;    
     background-color: #FFFFFF;
-    // height: 1010px;
     .title{
         font-weight: 700;
         font-size: 13px;
@@ -34,10 +33,46 @@
             line-height: 16px;
             color: #26282E;
         }
-        .input-barcode, .input-name{
+        .k-checkbox {
+            border: 1px solid #999999;
+        }
+        .k-checkbox:checked{
+            background-color: #008000;
+            box-shadow: none;
+        }
+        
+        .input-barcode, 
+        .input-name, 
+        .alias-container,
+        .status-id-container, 
+        .price-container, 
+        .price-base-container, 
+        .price-vip-container{
             display: flex;
             flex-direction: column;
             row-gap: 10px;
+        }
+
+        .alias-container{
+            a:any-link{
+                color: #31ADFF;
+                text-decoration-color: #31ADFF;
+            } 
+        }
+
+        .freeship-container{
+            .k-checkbox{
+                float: right;
+            }
+        }
+        .container-1, .container-2, .container-3, .container-4 {
+            display: flex;
+            justify-content: space-between;
+            span {
+                flex-basis: 40%;
+                display: flex;
+                justify-content: space-between;
+            }
         }
     }
     .btns-container{
