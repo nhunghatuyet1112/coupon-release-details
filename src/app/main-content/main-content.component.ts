@@ -319,6 +319,7 @@ export class MainContentComponent {
 
   onSubmitNewProduct(drawer: any) {
     this.productList.updateProduct(this.newProductDetail).subscribe(r => console.log(r))
+    drawer.toggle();
   }
 
   onOpenEditProductDrawer(drawer: any, code: number, barcode: string) {
@@ -328,17 +329,16 @@ export class MainContentComponent {
     })
   }
 
+  onEditProductPrice(price: any) {
+    this.productDetail.ObjectReturn.Price = Number(price);
+  }
+
   onCloseEditProductDrawer(event: any) {
     event.toggle()
   }
 
-  onSubmitEditProductDrawer(drawer: any, name: string, barcode: string) {
-    this.productData.map(p => {
-      if (p.Code === this.productDetail.ObjectReturn.Code) {
-        p.ProductName = name;
-        p.Barcode = barcode;
-      }
-    })
+  onSubmitEditProductDrawer(drawer: any) {
+    this.productList.updateProduct({ DTO: this.productDetail.ObjectReturn, Properties: ["Price"] }).subscribe(r => console.log(r));
     drawer.toggle();
   }
   ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

@@ -34,10 +34,10 @@
                                 [Price]="productDetail.ObjectReturn.Price"
                                 [PriceBase]="productDetail.ObjectReturn.PriceBase"
                                 [PriceVIP]="productDetail.ObjectReturn.PriceVIP"
+                                (changePrice)="onEditProductPrice($event)"
                                 (closeDrawer)="onCloseEditProductDrawer(editProductDrawer)"
-                                (blurBarcode)="onChangeBarcode()"
                                 (changeStatusID)="onChangeStatusID($event)"
-                                (submitProduct)="onSubmitEditProductDrawer(editProductDrawer, productDetail.ObjectReturn.ProductName, productDetail.ObjectReturn.Barcode)">
+                                (submitProduct)="onSubmitEditProductDrawer(editProductDrawer)">
             </app-add-new-drawer>
         </ng-template>
     </kendo-drawer>
