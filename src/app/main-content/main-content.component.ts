@@ -36,12 +36,11 @@ export class MainContentComponent {
 
 
   //============================PRODUCT LIST & DETAILS============================\\
-  public productListReturn = new PRODUCT(0, null, []);
   public productDetail = new PRODUCT(0, null, {});
 
   public productBarcode = '';
   public newProductDetail = new newProduct({}, ["Price"]);
-  public productData = [...this.productListReturn.ObjectReturn];
+  public productData = [];
 
 
   //============================PRODUCT LIST & DETAILS============================\\
@@ -165,8 +164,6 @@ export class MainContentComponent {
   getProducts() {
     this.productList.getProducts(this.initialFilterState).subscribe(products => {
       this.productData = products.ObjectReturn.Data;
-      this.productListReturn.ObjectReturn = products.ObjectReturn.Data;
-      console.log(this.productListReturn.ObjectReturn);
     })
   }
   //============================GET PRODUCT LIST============================\\
@@ -319,6 +316,9 @@ export class MainContentComponent {
 
   onSubmitNewProduct(drawer: any) {
     this.productList.updateProduct(this.newProductDetail).subscribe(r => console.log(r))
+    this.productList.getProducts(this.initialFilterState).subscribe(products => {
+      this.productData = products.ObjectReturn.Data;
+    })
     drawer.toggle();
   }
 
@@ -377,11 +377,11 @@ export class MainContentComponent {
   }
 
   onDeleteProduct() {
-    let productIndex = this.productData.findIndex(p => p.Code === this.productDetail.ObjectReturn.Code);
-    let arr = this.productData;
-    arr.splice(productIndex, 1);
+    this.productList.deleteProduct([this.productDetail.ObjectReturn]).subscribe();
+    this.productList.getProducts(this.initialFilterState).subscribe(products => {
+      this.productData = products.ObjectReturn.Data;
+    })
     this.isDeleteDialogOpened = false;
-    this.productData = [...arr];
   }
   //============================HANDLE DELETE PRODUCT DIALOG============================\\
   ngOnInit(): void {

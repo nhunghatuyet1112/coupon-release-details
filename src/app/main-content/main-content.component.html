@@ -84,7 +84,7 @@
                   *ngIf="isDeleteDialogOpened"
                   (close)="onCloseDialog()">
         <kendo-dialog-titlebar>XÓA SẢN PHẨM</kendo-dialog-titlebar>
-        <span>Bạn chắc chắn muốn xóa sản phẩm {{productDetail.ProductName}}</span>
+        <span>Bạn chắc chắn muốn xóa sản phẩm {{productDetail.ObjectReturn.ProductName}}</span>
         <span>Sản phẩm bị xóa sẽ <i>KHÔNG</i> thể khôi phục lại</span>
         <kendo-dialog-actions>
             <kendo-button class="undelete-btn"
