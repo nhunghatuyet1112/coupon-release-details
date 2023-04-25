@@ -1,10 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { IntlService } from "@progress/kendo-angular-intl";
-import { Product } from '../product';
+import { PRODUCT } from '../DTO/DTO3p-return.dto';
 import { ProductlistService } from '../productlist.service';
 import { PopupSettings } from '@progress/kendo-angular-dateinputs';
 import { State } from '@progress/kendo-data-query';
 import * as $ from 'jquery'
+import { newProduct } from '../DTO/DTO3p-return.dto';
 
 @Component({
   selector: 'app-main-content',
@@ -35,14 +36,34 @@ export class MainContentComponent {
 
 
   //============================PRODUCT LIST & DETAILS============================\\
-  public productData: Product[] = [];
-  public productDetail: Product = { Code: 0, ImageThumb: '', ProductName: '', Barcode: '' };
+  public productListReturn = new PRODUCT(0, null, []);
+  public productDetail = new PRODUCT(0, null, {});
+
+  public productBarcode = '';
+  public newProductDetail = new newProduct({}, ["Price"]);
+  public productData = [...this.productListReturn.ObjectReturn];
+
+
   //============================PRODUCT LIST & DETAILS============================\\
+
 
 
   //============================ADD & EDIT DRAWER============================\\
   public addDrawerExpanded = false;
   public editDrawerExpanded = false;
+  ///////////////////////////PASS TO APP-NEW-DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  //DROPDOWN STATUS ID LIST
+  public statusID: Array<{ text: string, value: number }> = [
+    { text: 'Tạo Mới', value: 0 },
+    { text: 'Chờ Duyệt', value: 1 },
+    { text: 'Duyệt', value: 2 },
+    { text: 'Ngưng Áp Dụng', value: 3 },
+    { text: 'Trả Về', value: 4 },
+  ];
+  //DROPDOWN STATUS ID LIST
+
+  ///////////////////////////PASS TO APP-NEW-DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   //============================ADD & EDIT DRAWER============================\\
 
 
@@ -143,8 +164,9 @@ export class MainContentComponent {
   //============================GET PRODUCT LIST============================\\
   getProducts() {
     this.productList.getProducts(this.initialFilterState).subscribe(products => {
-      console.log(products);
       this.productData = products.ObjectReturn.Data;
+      this.productListReturn.ObjectReturn = products.ObjectReturn.Data;
+      console.log(this.productListReturn.ObjectReturn);
     })
   }
   //============================GET PRODUCT LIST============================\\
@@ -267,15 +289,42 @@ export class MainContentComponent {
   //============================HANDLE NOTIFICATION TYPE============================\\
 
   //============================HANDLE EDIT PRODUCT============================\\
-  onChangeProductName(value: string) {
-    this.productDetail.ProductName = value;
+  onChangeBarcode(event: any) {
+    this.productBarcode = event;
+  }
+
+  onBlurBarcode() {
+    this.productList.getProduct({ Code: 0, Barcode: this.productBarcode }).subscribe(product => {
+      this.newProductDetail.DTO = product.ObjectReturn;
+    })
+  }
+
+  onChangeNewProductPrice(price: any) {
+    this.newProductDetail.DTO.Price = Number(price);
+  }
+
+  onChangeStatusID(event: any) {
+    console.log(event);
   }
   ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  onOpenAddProductDrawer(drawer: any) {
+    this.newProductDetail.DTO = {};
+    this.newProductDetail.DTO.ImageThumb = "/Uploads/_11/product1/4909411076870.jpg"
+    drawer.toggle();
+  }
+
+  onCloseAddProductDrawer(event: any) {
+    event.toggle()
+  }
+
+  onSubmitNewProduct(drawer: any) {
+    this.productList.updateProduct(this.newProductDetail).subscribe(r => console.log(r))
+  }
+
   onOpenEditProductDrawer(drawer: any, code: number, barcode: string) {
     drawer.toggle();
     this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
-      this.productDetail = product.ObjectReturn;
-      console.log(this.productDetail);
+      this.productDetail.ObjectReturn = product.ObjectReturn;
     })
   }
 
@@ -285,7 +334,7 @@ export class MainContentComponent {
 
   onSubmitEditProductDrawer(drawer: any, name: string, barcode: string) {
     this.productData.map(p => {
-      if (p.Code === this.productDetail.Code) {
+      if (p.Code === this.productDetail.ObjectReturn.Code) {
         p.ProductName = name;
         p.Barcode = barcode;
       }
@@ -298,7 +347,7 @@ export class MainContentComponent {
   onOpenEditProductDialog(code: number, barcode: string) {
     this.isEditDialogOpened = !this.isEditDialogOpened;
     this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
-      this.productDetail = product.ObjectReturn;
+      this.productDetail.ObjectReturn = product.ObjectReturn;
     })
   }
 
@@ -309,7 +358,7 @@ export class MainContentComponent {
 
   onSubmitEditProductDialog(name: string, barcode: string) {
     this.productData.map(p => {
-      if (p.Code === this.productDetail.Code) {
+      if (p.Code === this.productDetail.ObjectReturn.Code) {
         p.ProductName = name;
         p.Barcode = barcode;
       }
@@ -323,12 +372,12 @@ export class MainContentComponent {
   //============================HANDLE DELETE PRODUCT DIALOG============================\\
   onOpenDeleteDialog(value: number, name: string) {
     this.isDeleteDialogOpened = true;
-    this.productDetail.Code = value;
-    this.productDetail.ProductName = name;
+    this.productDetail.ObjectReturn.Code = value;
+    this.productDetail.ObjectReturn.ProductName = name;
   }
 
   onDeleteProduct() {
-    let productIndex = this.productData.findIndex(p => p.Code === this.productDetail.Code);
+    let productIndex = this.productData.findIndex(p => p.Code === this.productDetail.ObjectReturn.Code);
     let arr = this.productData;
     arr.splice(productIndex, 1);
     this.isDeleteDialogOpened = false;
