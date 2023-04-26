@@ -8,13 +8,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class AddNewDrawerComponent {
   //VARIABLES RECEIVE VALUE FROM APP-MAIN-CONTENT
 
+  @Input() buttonName = '';
+
   //TEXTBOX
   @Input() productName = '';
   @Input() Barcode = '';
+  @Input() isBarcode = false;
   //TEXTBOX
 
   //IMAGE
-  @Input() ImageUrl = "/Uploads/_11/product1/4909411076870.jpg";
+  @Input() ImageUrl = "";
+  @Input() isImageUrl = false;
   //IMAGE
 
   //PRODUCT LINK
@@ -47,6 +51,7 @@ export class AddNewDrawerComponent {
 
   //CHANGE PRODUCT PRICE
   @Output() changePrice = new EventEmitter();
+  @Output() changePriceBase = new EventEmitter();
   //CHANGE PRODUCT PRICE
   @Output() changeStatusID = new EventEmitter();
 
@@ -70,8 +75,13 @@ export class AddNewDrawerComponent {
     this.changePrice.emit(event);
   }
 
+  onChangePriceBase(event: any) {
+    this.changePriceBase.emit(event);
+  }
+
   onChangeStatusID(event: any) {
     this.changeStatusID.emit(event);
   }
+
   //FUNCTIONS PASS TO APP-MAIN-CONTENT
 }

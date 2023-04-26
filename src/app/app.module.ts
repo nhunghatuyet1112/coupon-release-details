@@ -22,6 +22,7 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { AddNewDrawerComponent } from './add-new-drawer/add-new-drawer.component';
 import { FilterModule } from '@progress/kendo-angular-filter';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { AppRoutingModule } from './app-routing.module';
 
 
 
@@ -59,6 +60,7 @@ import { DialogsModule } from '@progress/kendo-angular-dialog';
     HttpClientModule,
     FilterModule,
     DialogsModule,
+    AppRoutingModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "vi-VI" }],
   bootstrap: [AppComponent]

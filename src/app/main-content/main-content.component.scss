@@ -1,6 +1,11 @@
 .main-content-drawer {
+    .k-overlay {
+        display: none !important;
+    }
     .k-drawer{
         flex-basis: 340px !important;
+        height: 80%;
+        transform: translate(0px, 55px) !important;
         .k-drawer-wrapper{
             width: 340px !important;
         }

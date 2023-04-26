@@ -36,21 +36,31 @@ export class MainContentComponent {
 
 
   //============================PRODUCT LIST & DETAILS============================\\
+  public productListReturn = new PRODUCT(0, null, []);
   public productDetail = new PRODUCT(0, null, {});
 
-  public productBarcode = '';
   public newProductDetail = new newProduct({}, ["Price"]);
   public productData = [];
 
-
   //============================PRODUCT LIST & DETAILS============================\\
-
-
 
   //============================ADD & EDIT DRAWER============================\\
   public addDrawerExpanded = false;
   public editDrawerExpanded = false;
   ///////////////////////////PASS TO APP-NEW-DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  //BUTTON NAME
+  public buttonName = '';
+  //BUTTON NAME
+
+  //BARCODE VALUE
+  public productBarcode = '';
+  public isBarcodeDisabled = true;
+  //BARCODE VALUE
+
+  //IMAGE STATE
+  public isProductImage = false;
+  //IMAGE STATE
 
   //DROPDOWN STATUS ID LIST
   public statusID: Array<{ text: string, value: number }> = [
@@ -163,7 +173,8 @@ export class MainContentComponent {
   //============================GET PRODUCT LIST============================\\
   getProducts() {
     this.productList.getProducts(this.initialFilterState).subscribe(products => {
-      this.productData = products.ObjectReturn.Data;
+      this.productListReturn.ObjectReturn = products.ObjectReturn.Data;
+      this.productData = [...this.productListReturn.ObjectReturn];
     })
   }
   //============================GET PRODUCT LIST============================\\
@@ -291,6 +302,7 @@ export class MainContentComponent {
   }
 
   onBlurBarcode() {
+    this.isProductImage = true;
     this.productList.getProduct({ Code: 0, Barcode: this.productBarcode }).subscribe(product => {
       this.newProductDetail.DTO = product.ObjectReturn;
     })
@@ -306,7 +318,8 @@ export class MainContentComponent {
   ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   onOpenAddProductDrawer(drawer: any) {
     this.newProductDetail.DTO = {};
-    this.newProductDetail.DTO.ImageThumb = "/Uploads/_11/product1/4909411076870.jpg"
+    this.isProductImage = false;
+    this.buttonName = 'THÊM MỚI';
     drawer.toggle();
   }
 
@@ -315,18 +328,33 @@ export class MainContentComponent {
   }
 
   onSubmitNewProduct(drawer: any) {
-    this.productList.updateProduct(this.newProductDetail).subscribe(r => console.log(r))
-    this.productList.getProducts(this.initialFilterState).subscribe(products => {
-      this.productData = products.ObjectReturn.Data;
-    })
+    this.productList.updateProduct(this.newProductDetail).subscribe();
+    let arr = [...this.productData];
+    arr.splice(0, 0, this.newProductDetail.DTO);
+    this.productData = [...arr];
     drawer.toggle();
   }
 
   onOpenEditProductDrawer(drawer: any, code: number, barcode: string) {
+    this.isProductImage = true;
+    this.buttonName = 'CẬP NHẬT';
+    if (code == 0) {
+      this.productList.getProducts(this.initialFilterState).subscribe(r => {
+        let result = r.ObjectReturn.Data.find((r) => {
+          return r.Barcode == barcode;
+        })
+        console.log(result)
+        this.productList.getProduct({ Code: result.Code, Barcode: result.Barcode }).subscribe(product => {
+          this.productDetail.ObjectReturn = product.ObjectReturn;
+        })
+      })
+    }
+    else {
+      this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
+        this.productDetail.ObjectReturn = product.ObjectReturn;
+      })
+    }
     drawer.toggle();
-    this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
-      this.productDetail.ObjectReturn = product.ObjectReturn;
-    })
   }
 
   onEditProductPrice(price: any) {
@@ -334,11 +362,13 @@ export class MainContentComponent {
   }
 
   onCloseEditProductDrawer(event: any) {
+    this.isProductImage = false;
     event.toggle()
   }
 
   onSubmitEditProductDrawer(drawer: any) {
     this.productList.updateProduct({ DTO: this.productDetail.ObjectReturn, Properties: ["Price"] }).subscribe(r => console.log(r));
+    this.isProductImage = false;
     drawer.toggle();
   }
   ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -378,9 +408,13 @@ export class MainContentComponent {
 
   onDeleteProduct() {
     this.productList.deleteProduct([this.productDetail.ObjectReturn]).subscribe();
-    this.productList.getProducts(this.initialFilterState).subscribe(products => {
-      this.productData = products.ObjectReturn.Data;
+    let arr = [...this.productData];
+    let index = arr.findIndex(i => {
+      return i.Code === this.productDetail.ObjectReturn.Code;
     })
+    arr.splice(index, 1);
+    this.productData = [...arr];
+    console.log(this.productData);
     this.isDeleteDialogOpened = false;
   }
   //============================HANDLE DELETE PRODUCT DIALOG============================\\
