@@ -297,6 +297,8 @@ export class MainContentComponent {
   //============================HANDLE NOTIFICATION TYPE============================\\
 
   //============================HANDLE EDIT PRODUCT============================\\
+  ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //ADD NEW PRODUCT
   onChangeBarcode(event: any) {
     this.productBarcode = event;
   }
@@ -312,10 +314,19 @@ export class MainContentComponent {
     this.newProductDetail.DTO.Price = Number(price);
   }
 
-  onChangeStatusID(event: any) {
-    console.log(event);
+  onChangeNewProductPriceBase(priceBase: any) {
+    this.newProductDetail.DTO.PriceBase = Number(priceBase);
+    console.log(this.newProductDetail.DTO)
   }
-  ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  onCheckBestPrice() {
+    this.newProductDetail.DTO.IsBestPrice = !this.newProductDetail.DTO.IsBestPrice;
+  }
+
+  onCheckPromotion() {
+    this.newProductDetail.DTO.IsPromotion = !this.newProductDetail.DTO.IsPromotion;
+  }
+
   onOpenAddProductDrawer(drawer: any) {
     this.newProductDetail.DTO = {};
     this.isProductImage = false;
@@ -328,24 +339,27 @@ export class MainContentComponent {
   }
 
   onSubmitNewProduct(drawer: any) {
-    this.productList.updateProduct(this.newProductDetail).subscribe();
+    this.productList.updateProduct({ DTO: this.newProductDetail.DTO, Properties: ["Price", "PriceBase", "isBestPrice", "isPromotion"] }).subscribe();
     let arr = [...this.productData];
     arr.splice(0, 0, this.newProductDetail.DTO);
     this.productData = [...arr];
+    console.log(this.newProductDetail.DTO)
     drawer.toggle();
   }
+  //ADD NEW PRODUCT
 
+  //EDIT PRODUCT
   onOpenEditProductDrawer(drawer: any, code: number, barcode: string) {
     this.isProductImage = true;
     this.buttonName = 'CẬP NHẬT';
     if (code == 0) {
       this.productList.getProducts(this.initialFilterState).subscribe(r => {
-        let result = r.ObjectReturn.Data.find((r) => {
+        let result = r.ObjectReturn.Data.find(r => {
           return r.Barcode == barcode;
         })
-        console.log(result)
         this.productList.getProduct({ Code: result.Code, Barcode: result.Barcode }).subscribe(product => {
-          this.productDetail.ObjectReturn = product.ObjectReturn;
+          this.productDetail.ObjectReturn = product.ObjectReturn
+          console.log(this.productDetail.ObjectReturn);
         })
       })
     }
@@ -361,16 +375,32 @@ export class MainContentComponent {
     this.productDetail.ObjectReturn.Price = Number(price);
   }
 
+  onEditProductPriceBase(priceBase: any) {
+    this.productDetail.ObjectReturn.PriceBase = Number(priceBase);
+    console.log(this.productDetail.ObjectReturn);
+  }
+
+  onEditBestPrice() {
+    this.productDetail.ObjectReturn.IsBestPrice = !this.productDetail.ObjectReturn.IsBestPrice;
+  }
+
+  onEditPromotion() {
+    this.productDetail.ObjectReturn.IsPromotion = !this.productDetail.ObjectReturn.IsPromotion;
+  }
+
   onCloseEditProductDrawer(event: any) {
     this.isProductImage = false;
+    this.productDetail.ObjectReturn = {};
     event.toggle()
   }
 
   onSubmitEditProductDrawer(drawer: any) {
-    this.productList.updateProduct({ DTO: this.productDetail.ObjectReturn, Properties: ["Price"] }).subscribe(r => console.log(r));
+    this.productList.updateProduct({ DTO: this.productDetail.ObjectReturn, Properties: ["Price", "PriceBase"] }).subscribe(r => console.log(r));
+    this.productDetail.ObjectReturn = {};
     this.isProductImage = false;
     drawer.toggle();
   }
+  //EDIT PRODUCT
   ////////////////////////////////////DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   ////////////////////////////////////DIALOG\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -400,14 +430,25 @@ export class MainContentComponent {
 
 
   //============================HANDLE DELETE PRODUCT DIALOG============================\\
-  onOpenDeleteDialog(value: number, name: string) {
+  onOpenDeleteDialog(code: number, barcode: string, name: string) {
     this.isDeleteDialogOpened = true;
-    this.productDetail.ObjectReturn.Code = value;
+    this.productDetail.ObjectReturn.Code = code;
+    this.productDetail.ObjectReturn.Barcode = barcode;
     this.productDetail.ObjectReturn.ProductName = name;
   }
 
   onDeleteProduct() {
-    this.productList.deleteProduct([this.productDetail.ObjectReturn]).subscribe();
+    if (this.productDetail.ObjectReturn.Code === 0) {
+      this.productList.getProducts(this.initialFilterState).subscribe(r => {
+        let result = r.ObjectReturn.Data.find((r) => {
+          return r.Barcode == this.productDetail.ObjectReturn.Barcode;
+        })
+        this.productList.deleteProduct([result]).subscribe();
+      })
+    }
+    else {
+      this.productList.deleteProduct([this.productDetail.ObjectReturn]).subscribe();
+    }
     let arr = [...this.productData];
     let index = arr.findIndex(i => {
       return i.Code === this.productDetail.ObjectReturn.Code;

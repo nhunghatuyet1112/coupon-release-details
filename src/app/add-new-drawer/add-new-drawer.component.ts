@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-add-new-drawer',
   templateUrl: './add-new-drawer.component.html',
-  styleUrls: ['./add-new-drawer.component.scss']
+  styleUrls: ['./add-new-drawer.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AddNewDrawerComponent {
   //VARIABLES RECEIVE VALUE FROM APP-MAIN-CONTENT
@@ -15,6 +16,11 @@ export class AddNewDrawerComponent {
   @Input() Barcode = '';
   @Input() isBarcode = false;
   //TEXTBOX
+
+  //CHECKBOX
+  @Input() isBestPrice = false;
+  @Input() isPromotion = false;
+  //CHECKBOX
 
   //IMAGE
   @Input() ImageUrl = "";
@@ -32,7 +38,7 @@ export class AddNewDrawerComponent {
 
   //PRICE TEXTBOXES VALUE
   @Input() Price = 0;
-  @Input() PriceBase = 0;
+  @Input() PriceBase = 5;
   @Input() PriceVIP = 0;
   //PRICE TEXTBOXES VALUE
 
@@ -49,11 +55,16 @@ export class AddNewDrawerComponent {
   //FIND PRODUCT BY BARCODE
 
 
-  //CHANGE PRODUCT PRICE
+  //CHANGE PRODUCT PRICE & PRICE BASE
   @Output() changePrice = new EventEmitter();
   @Output() changePriceBase = new EventEmitter();
   //CHANGE PRODUCT PRICE
   @Output() changeStatusID = new EventEmitter();
+
+  //CHECK BEST PRICE & PROMOTION
+  @Output() checkBestPrice = new EventEmitter();
+  @Output() checkPromotion = new EventEmitter();
+  //CHECK BEST PRICE & PROMOTION
 
   onCloseDrawer(event: any) {
     this.closeDrawer.emit(event);
@@ -81,6 +92,14 @@ export class AddNewDrawerComponent {
 
   onChangeStatusID(event: any) {
     this.changeStatusID.emit(event);
+  }
+
+  onCheckBestPrice(event: any) {
+    this.checkBestPrice.emit(event)
+  }
+
+  onCheckPromotion(event: any) {
+    this.checkPromotion.emit(event);
   }
 
   //FUNCTIONS PASS TO APP-MAIN-CONTENT

@@ -10,14 +10,17 @@
                                 [ImageUrl]="newProductDetail.DTO.ImageThumb"
                                 [isImageUrl]="isProductImage"
                                 [Alias]="newProductDetail.DTO.Alias"
-                                [statusID]="newProductDetail.DTO.StatusID"
                                 [Price]="newProductDetail.DTO.Price"
                                 [PriceBase]="newProductDetail.DTO.PriceBase"
-                                [PriceVIP]="newProductDetail.DTO.PriceVIP"
+                                [isBestPrice]="newProductDetail.DTO.IsBestPrice"
+                                [isPromotion]="newProductDetail.DTO.IsPromotion"
                                 [buttonName]="buttonName"
                                 (changeBarcode)="onChangeBarcode($event)"
                                 (blurBarcode)="onBlurBarcode()"
                                 (changePrice)="onChangeNewProductPrice($event)"
+                                (changePriceBase)="onChangeNewProductPriceBase($event)"
+                                (checkBestPrice)="onCheckBestPrice()"
+                                (checkPromotion)="onCheckPromotion()"
                                 (closeDrawer)="onCloseAddProductDrawer(newProductDrawer)"
                                 (submitProduct)="onSubmitNewProduct(newProductDrawer)"></app-add-new-drawer>
         </ng-template>
@@ -34,12 +37,14 @@
                                 [ImageUrl]="productDetail.ObjectReturn.ImageThumb"
                                 [isImageUrl]="isProductImage"
                                 [Alias]="productDetail.ObjectReturn.Alias"
-                                [statusID]="statusID"
                                 [Price]="productDetail.ObjectReturn.Price"
                                 [PriceBase]="productDetail.ObjectReturn.PriceBase"
-                                [PriceVIP]="productDetail.ObjectReturn.PriceVIP"
+                                [isBestPrice]="productDetail.ObjectReturn.IsBestPrice"
+                                [isPromotion]="productDetail.ObjectReturn.IsPromotion"
+                                (checkBestPrice)="onEditBestPrice()"
                                 [buttonName]="buttonName"
                                 (changePrice)="onEditProductPrice($event)"
+                                (changePriceBase)="onEditProductPriceBase($event)"
                                 (closeDrawer)="onCloseEditProductDrawer(editProductDrawer)"
                                 (changeStatusID)="onChangeStatusID($event)"
                                 (submitProduct)="onSubmitEditProductDrawer(editProductDrawer)">
@@ -463,9 +468,6 @@
                             <kendo-calendar type="classic"
                                             [value]="valueDate"
                                             (valueChange)="onChangeDate($event)">
-                                <ng-template kendoCalendarHeaderTitleTemplate
-                                             let-title> {{'Tháng ' + title.charAt(9) + ', ' + title.slice(7)}}
-                                </ng-template>
                             </kendo-calendar>
                             <div class="time-picker">
                                 <span class="all-day">
@@ -564,12 +566,12 @@
                     <kendo-grid-column>
                         <ng-template kendoGridCellTemplate
                                      let-dataItem>
-                            <kendo-button (click)="onOpenDeleteDialog(dataItem.Code, dataItem.ProductName)"
+                            <kendo-button (click)="onOpenDeleteDialog(dataItem.Code, dataItem.Barcode, dataItem.ProductName)"
                                           class="delete-btn"
                                           iconClass="fa-solid fa-trash-can"></kendo-button>
                             <kendo-button class="drawer-edit-btn"
                                           iconClass="fa-solid fa-pencil"
-                                          (click)="onOpenEditProductDrawer(editProductDrawer, dataItem.Code, dataItem.Barcode)"></kendo-button>
+                                          (click)="onOpenEditProductDrawer(editProductDrawer, dataItem.Code, dataItem.Barcode, dataItem.ProductName)"></kendo-button>
                             <kendo-button class="dialog-edit-btn"
                                           iconClass="fa-solid fa-pencil"
                                           (click)="onOpenEditProductDialog(dataItem.Code, dataItem.Barcode)"></kendo-button>

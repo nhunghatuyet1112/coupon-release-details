@@ -124,6 +124,8 @@
                              text="Là BestPrice"></kendo-label>
                 <input type="checkbox"
                        id="isBestPrice"
+                       [checked]="isBestPrice"
+                       (change)="onCheckBestPrice($event)"
                        kendoCheckBox>
             </span>
             <span class="is-promotion-container">
@@ -132,6 +134,8 @@
                              text="Có khuyến mãi"></kendo-label>
                 <input type="checkbox"
                        id="isPromotion"
+                       [checked]="isPromotion"
+                       (change)="onCheckPromotion($event)"
                        kendoCheckBox>
             </span>
         </div>
