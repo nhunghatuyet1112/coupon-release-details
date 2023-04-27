@@ -37,6 +37,28 @@
                 color: #FFFFFF;
             }
         }
+        .k-window-content{
+            display: flex;
+            .edit-product-form{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                row-gap: 10px;
+                .checkboxes-container{
+                    display: flex;
+                    column-gap: 15px;
+                    .k-label{
+                        padding-right: 5px;
+                    }
+                    .k-checkbox:checked{
+                        border-color:#00C8FF;
+                        box-shadow: none;
+                        background-color: #00C8FF;
+                    }
+                }
+            }
+        }
+        
     }
     .delete-product-dialog{
         .k-window-titlebar-action{

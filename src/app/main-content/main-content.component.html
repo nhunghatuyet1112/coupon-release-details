@@ -56,36 +56,75 @@
                   *ngIf="isEditDialogOpened"
                   (close)="onCloseDialog()">
         <kendo-dialog-titlebar>THÊM MỚI SẢN PHẨM</kendo-dialog-titlebar>
-        <form class="add-new-form">
-            <span class="input-barcode">
+        <form class="edit-product-form">
+            <div class="input-barcode">
                 <kendo-label class="kendo-label"
                              for="productBarcode"
                              text="Nhập mã sản phẩm"></kendo-label>
                 <kendo-textbox class="kendo-textbox"
                                id="productBarcode"
                                placeholder="4904071403967"
+                               disabled="true"
                                value="{{productDetail.ObjectReturn.Barcode}}"></kendo-textbox>
-            </span>
-            <span class="input-name">
+            </div>
+            <div class="input-name">
                 <kendo-label class="kendo-label"
                              for="productName"
                              text="Tên sản phẩm"></kendo-label>
                 <kendo-textbox class="kendo-textbox"
                                id="productName"
-                               placeholder="Tủ nhựa 5 ngăn Sanka 34x42x107cm - Trắng kem "
                                value="{{productDetail.ObjectReturn.ProductName}}"
-                               (valueChange)="onChangeProductName($event)"></kendo-textbox>
-            </span>
-            <span>
-                <img style="width: 100px; height: 100px;"
+                               disabled="true"></kendo-textbox>
+            </div>
+            <div class="input-pricebase">
+                <kendo-label class="kendo-label"
+                             for="priceBase"
+                             text="Giá gốc"></kendo-label>
+                <kendo-textbox class="kendo-textbox"
+                               id="priceBase"
+                               value="{{productDetail.ObjectReturn.PriceBase}}"
+                               (valueChange)="onEditProductPriceBase($event)"></kendo-textbox>
+            </div>
+            <div class="input-price">
+                <kendo-label class="kendo-label"
+                             for="Price"
+                             text="Giá khuyến mãi"></kendo-label>
+                <kendo-textbox class="kendo-textbox"
+                               id="Price"
+                               value="{{productDetail.ObjectReturn.Price}}"
+                               (valueChange)="onEditProductPrice($event)"></kendo-textbox>
+            </div>
+            <div class="checkboxes-container">
+                <span class="checkbox-bestprice">
+                    <kendo-label class="kendo-label"
+                                 for="IsBestPrice"
+                                 text="Là BestPrice"></kendo-label>
+                    <input type="checkbox"
+                           id="IsBestPrice"
+                           [checked]="productDetail.ObjectReturn.IsBestPrice"
+                           kendoCheckBox>
+                </span>
+                <span class="checkbox-promotion">
+                    <kendo-label class="kendo-label"
+                                 for="IsPromotion"
+                                 text="Là Promotion"></kendo-label>
+                    <input type="checkbox"
+                           id="IsPromotion"
+                           [checked]="productDetail.ObjectReturn.IsPromotion"
+                           kendoCheckBox>
+                </span>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <img style="width: 120px; height: 120px;"
                      src="http://test.lapson.vn/{{productDetail.ObjectReturn.ImageThumb}}">
-            </span>
+            </div>
+
         </form>
         <kendo-dialog-actions>
             <kendo-button class="close-dialog-btn"
                           (click)="onCloseDialog()">ĐÓNG</kendo-button>
             <kendo-button class="update-product-btn"
-                          (click)="onSubmitEditProductDialog(productDetail.ObjectReturn.ProductName, productDetail.ObjectReturn.Barcode)">CẬP
+                          (click)="onSubmitEditProductDialog()">CẬP
                 NHẬT</kendo-button>
         </kendo-dialog-actions>
     </kendo-dialog>

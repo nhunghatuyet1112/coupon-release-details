@@ -416,13 +416,8 @@ export class MainContentComponent {
     this.isDeleteDialogOpened = false;
   }
 
-  onSubmitEditProductDialog(name: string, barcode: string) {
-    this.productData.map(p => {
-      if (p.Code === this.productDetail.ObjectReturn.Code) {
-        p.ProductName = name;
-        p.Barcode = barcode;
-      }
-    })
+  onSubmitEditProductDialog() {
+    this.productList.updateProduct({ DTO: this.productDetail.ObjectReturn, Properties: ["Price", "PriceBase"] }).subscribe(r => console.log(r));
     this.isEditDialogOpened = false;
   }
   ////////////////////////////////////DIALOG\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
