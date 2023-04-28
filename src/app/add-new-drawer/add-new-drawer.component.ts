@@ -14,6 +14,7 @@ export class AddNewDrawerComponent {
   //TEXTBOX
   @Input() productName = '';
   @Input() Barcode = '';
+  @Input() FreeShippingImage = '';
   @Input() isBarcode = false;
   //TEXTBOX
 
@@ -33,6 +34,7 @@ export class AddNewDrawerComponent {
 
   //DROPDOWN STATUS ID LIST
   @Input() statusID: Array<{ text: string, value: number }> = [];
+  @Input() defaultStatus = 0;
   // @Input() defaultStatus: number;
   //DROPDOWN STATUS ID LIST
 

@@ -70,6 +70,7 @@ export class MainContentComponent {
     { text: 'Ngưng Áp Dụng', value: 3 },
     { text: 'Trả Về', value: 4 },
   ];
+  public defaultStatus = 0;
   //DROPDOWN STATUS ID LIST
 
   ///////////////////////////PASS TO APP-NEW-DRAWER\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -304,10 +305,15 @@ export class MainContentComponent {
   }
 
   onBlurBarcode() {
-    this.isProductImage = true;
-    this.productList.getProduct({ Code: 0, Barcode: this.productBarcode }).subscribe(product => {
-      this.newProductDetail.DTO = product.ObjectReturn;
-    })
+    if (this.productBarcode.trim() != '') {
+      this.isProductImage = true;
+      this.productList.getProduct({ Code: 0, Barcode: this.productBarcode }).subscribe(product => {
+        this.newProductDetail.DTO = product.ObjectReturn;
+      })
+    }
+    else {
+      console.log('Chua nhap barcode');
+    }
   }
 
   onChangeNewProductPrice(price: any) {
@@ -470,33 +476,19 @@ export class MainContentComponent {
       $('.page-sizes .k-dropdown .k-input-inner').css({ 'font-weight': '400', 'font-size': '13px', 'line-height': '16px', 'color': '#26282E' })
       $('.page-sizes .k-dropdown').css({ 'border-style': 'none', 'background-color': '#EDEFF3' });
       $('.k-pager-first').text('Đầu');
-      $('.k-pager-first').css({ 'color': '#959DB3' });
       $('kendo-dropdownlist').removeClass("k-picker-solid");
       $(".prev-btn .k-pager-first").addClass('k-pager-first-text');
       $(".k-pager-first-text").removeClass('k-pager-nav');
-      $(".prev-btn .k-pager-first-text").attr("style", "background-color:#F4F5F7!important");
-      $(".prev-btn .k-pager-first-text").css({ 'border-radius': '5px' })
       $(".prev-btn .k-pager-nav").empty();
       var prevBtn = '<i class="fa-solid fa-chevron-left"></i>';
       $(".prev-btn .k-pager-nav").append(prevBtn);
-      $(".prev-btn .k-pager-nav").attr("style", "background-color:#F4F5F7!important");
-      $(".prev-btn .k-pager-nav").css({ 'height': '29px', 'width': '20px', 'margin': '0px 10px 0px 10px', 'border-radius': '3px' })
-      $(".prev-btn .k-pager-nav i").attr("style", "background-color:#F4F5F7!important");
       $('.k-dropdown').click(() => {
         $('.k-list-md .k-list-content .k-list-ul .k-selected').css('background-color', '#008000');
       })
-      $('.k-pager-numbers .k-selected').attr("style", "background-color:#959DB3!important");
-      $('.k-pager-numbers .k-selected').css({ 'color': '#FFFFFF', 'border-radius': '5px', 'padding': '0', 'min-width': 'calc(1.4285714286em + 1px)' });
       $('.k-pager-last').text('Cuối');
-      $(".k-pager-last").attr("style", "background-color:#FFFFFF!important");
-      $('.k-pager-last').css({ 'color': '#959DB3', 'font-weight': '400', 'border-radius': '5px' });
       $('.next-btn :first-child').empty();
       var nextBtn = '<i class="fa-solid fa-chevron-right"></i>';
       $('.next-btn :first-child').append(nextBtn);
-      $(".next-btn :first-child").attr("style", "background-color:#FFFFFF!important");
-      $(".next-btn :first-child").css({ 'height': '29px', 'width': '20px', 'margin': '0px 10px 0px 5px', 'border-radius': '3px' })
-      $(".next-btn :first-child i").attr("style", "background-color:#FFFFFF!important");
-      $(".next-btn :first-child i").css('color', '#959DB3');
 
     })
   }

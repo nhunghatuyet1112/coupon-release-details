@@ -5,25 +5,34 @@
                   position="end">
         <ng-template kendoDrawerTemplate
                      ngIf="addDrawerExpanded">
-            <app-add-new-drawer [Barcode]="newProductDetail.DTO.Barcode"
-                                [productName]="newProductDetail.DTO.ProductName"
-                                [ImageUrl]="newProductDetail.DTO.ImageThumb"
-                                [isImageUrl]="isProductImage"
-                                [Alias]="newProductDetail.DTO.Alias"
-                                [Price]="newProductDetail.DTO.Price"
-                                [PriceBase]="newProductDetail.DTO.PriceBase"
-                                [isBestPrice]="newProductDetail.DTO.IsBestPrice"
-                                [isPromotion]="newProductDetail.DTO.IsPromotion"
-                                [buttonName]="buttonName"
-                                (changeBarcode)="onChangeBarcode($event)"
-                                (blurBarcode)="onBlurBarcode()"
-                                (changePrice)="onChangeNewProductPrice($event)"
-                                (changePriceBase)="onChangeNewProductPriceBase($event)"
-                                (checkBestPrice)="onCheckBestPrice()"
-                                (checkPromotion)="onCheckPromotion()"
-                                (closeDrawer)="onCloseAddProductDrawer(newProductDrawer)"
-                                (submitProduct)="onSubmitNewProduct(newProductDrawer)"></app-add-new-drawer>
+            <div class="title">THÊM MỚI SẢN PHẨM</div>
+            <div class="drawer-form">
+                <app-add-new-drawer [Barcode]="newProductDetail.DTO.Barcode"
+                                    [productName]="newProductDetail.DTO.ProductName"
+                                    [ImageUrl]="newProductDetail.DTO.ImageThumb"
+                                    [isImageUrl]="isProductImage"
+                                    [Alias]="newProductDetail.DTO.Alias"
+                                    [statusID]="statusID"
+                                    [defaultStatus]="defaultStatus"
+                                    [Price]="newProductDetail.DTO.Price"
+                                    [PriceBase]="newProductDetail.DTO.PriceBase"
+                                    [PriceVIP]="newProductDetail.DTO.PriceVIP"
+                                    [isBestPrice]="newProductDetail.DTO.IsBestPrice"
+                                    [isPromotion]="newProductDetail.DTO.IsPromotion"
+                                    [buttonName]="buttonName"
+                                    (changeBarcode)="onChangeBarcode($event)"
+                                    (blurBarcode)="onBlurBarcode()"
+                                    (changePrice)="onChangeNewProductPrice($event)"
+                                    (changePriceBase)="onChangeNewProductPriceBase($event)"></app-add-new-drawer>
+            </div>
+            <div class="drawer-btns-container">
+                <kendo-button (click)="onCloseAddProductDrawer(newProductDrawer)"
+                              class="close-drawer-btn">ĐÓNG</kendo-button>
+                <kendo-button (click)="onSubmitNewProduct(newProductDrawer)"
+                              class="add-product-btn">{{buttonName}}</kendo-button>
+            </div>
         </ng-template>
+
     </kendo-drawer>
     <kendo-drawer #editProductDrawer
                   mode="overlay"
@@ -31,24 +40,32 @@
                   position="end">
         <ng-template kendoDrawerTemplate
                      ngIf="editDrawerExpanded">
-            <app-add-new-drawer [productName]="productDetail.ObjectReturn.ProductName"
-                                [Barcode]="productDetail.ObjectReturn.Barcode"
-                                [isBarcode]="isBarcodeDisabled"
-                                [ImageUrl]="productDetail.ObjectReturn.ImageThumb"
-                                [isImageUrl]="isProductImage"
-                                [Alias]="productDetail.ObjectReturn.Alias"
-                                [Price]="productDetail.ObjectReturn.Price"
-                                [PriceBase]="productDetail.ObjectReturn.PriceBase"
-                                [isBestPrice]="productDetail.ObjectReturn.IsBestPrice"
-                                [isPromotion]="productDetail.ObjectReturn.IsPromotion"
-                                (checkBestPrice)="onEditBestPrice()"
-                                [buttonName]="buttonName"
-                                (changePrice)="onEditProductPrice($event)"
-                                (changePriceBase)="onEditProductPriceBase($event)"
-                                (closeDrawer)="onCloseEditProductDrawer(editProductDrawer)"
-                                (changeStatusID)="onChangeStatusID($event)"
-                                (submitProduct)="onSubmitEditProductDrawer(editProductDrawer)">
-            </app-add-new-drawer>
+            <div class="title">CẬP NHẬT SẢN PHẨM</div>
+            <div class="drawer-form">
+                <app-add-new-drawer [productName]="productDetail.ObjectReturn.ProductName"
+                                    [Barcode]="productDetail.ObjectReturn.Barcode"
+                                    [isBarcode]="isBarcodeDisabled"
+                                    [ImageUrl]="productDetail.ObjectReturn.ImageThumb"
+                                    [isImageUrl]="isProductImage"
+                                    [Alias]="productDetail.ObjectReturn.Alias"
+                                    [statusID]="statusID"
+                                    [defaultStatus]="defaultStatus"
+                                    [Price]="productDetail.ObjectReturn.Price"
+                                    [PriceBase]="productDetail.ObjectReturn.PriceBase"
+                                    [PriceVIP]="productDetail.ObjectReturn.PriceVIP"
+                                    [isBestPrice]="productDetail.ObjectReturn.IsBestPrice"
+                                    [isPromotion]="productDetail.ObjectReturn.IsPromotion"
+                                    [buttonName]="buttonName"
+                                    (changePrice)="onEditProductPrice($event)"
+                                    (changePriceBase)="onEditProductPriceBase($event)">
+                </app-add-new-drawer>
+            </div>
+            <div class="drawer-btns-container">
+                <kendo-button (click)="onCloseEditProductDrawer(editProductDrawer)"
+                              class="close-drawer-btn">ĐÓNG</kendo-button>
+                <kendo-button (click)="onSubmitEditProductDrawer(editProductDrawer)"
+                              class="add-product-btn">{{buttonName}}</kendo-button>
+            </div>
         </ng-template>
     </kendo-drawer>
     <kendo-dialog #editProductDialog
@@ -615,12 +632,13 @@
                                           iconClass="fa-solid fa-pencil"
                                           (click)="onOpenEditProductDialog(dataItem.Code, dataItem.Barcode)"></kendo-button>
                             <div class="grid-cell">
-                                <img style="width:100px; height: 100px;"
-                                     src="http://test.lapson.vn/{{dataItem.ImageThumb}}" />
-                                <div class="grid-cell-child"
-                                     style="display: flex; flex-direction: column;">
+                                <div class="img-cell-child">
+                                    <img style="width:100px; height: 100px; margin-top: 10px;"
+                                         src="http://test.lapson.vn/{{dataItem.ImageThumb}}" />
+                                </div>
+                                <div class="grid-cell-child">
                                     <span class="text">{{dataItem.ProductName}}</span>
-                                    <span class="text">{{dataItem.Barcode}}</span>
+                                    <span class="item-barcode">{{dataItem.Barcode}}</span>
                                 </div>
                             </div>
                         </ng-template>
@@ -630,7 +648,7 @@
                                  let-currentPage="currentPage">
                         <kendo-pager-page-sizes class="page-sizes"
                                                 [pageSizes]="sizes"></kendo-pager-page-sizes>
-                        <div style="display: flex; float: right;">
+                        <div style="display: flex; float: right; column-gap: 5px;">
                             <kendo-pager-prev-buttons class="prev-btn"></kendo-pager-prev-buttons>
                             <kendo-pager-numeric-buttons class="count-btn"
                                                          class="custom-btn"

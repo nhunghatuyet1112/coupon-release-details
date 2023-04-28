@@ -1,8 +1,6 @@
 <div class="add-new-container">
-    <span class="title">THÊM MỚI SẢN PHẨM</span>
     <!--ADD NEW PRODUCT FORM-->
     <form class="add-new-form">
-
         <!--INPUT PRODUCT BARCODE-->
         <span class="input-barcode">
             <kendo-label class="kendo-label"
@@ -32,34 +30,37 @@
         <!--PRODUCT ALIAS LINK-->
         <span class="alias-container">
             <kendo-label class="kendo-label"
+                         for="productAlias"
                          text="Alias"></kendo-label>
             <kendo-textbox class="kendo-textbox"
+                           id="productAlias"
                            value="{{Alias}}"
                            disabled="true"></kendo-textbox>
         </span>
         <!--PRODUCT ALIAS LINK-->
 
         <!--FREESHIP-->
-        <!-- <span class="freeship-container">
+        <span class="freeship-container">
             <kendo-label class="kendo-label"
                          for="FreeShip"
-                         text="Free Shipping"></kendo-label>
-            <input type="checkbox"
-                   id="FreeShip"
-                   kendoCheckBox>
-        </span> -->
+                         text="Free Shipping Image"></kendo-label>
+            <kendo-textbox class="kendo-textbox"
+                           value="{{FreeShippingImage}}"
+                           disabled="true"></kendo-textbox>
+        </span>
         <!--FREESHIP-->
 
         <!--PRODUCT STATUS ID-->
-        <!-- <span class="status-id-container">
+        <span class="status-id-container">
             <kendo-label class="kendo-label"
                          text="Trạng thái"></kendo-label>
             <kendo-dropdownlist [data]="statusID"
                                 valueField="value"
                                 textField="text"
                                 [valuePrimitive]="true"
-                                (valueChange)="onChangeStatusID($event)"></kendo-dropdownlist>
-        </span> -->
+                                [(value)]="defaultStatus"
+                                disabled="true"></kendo-dropdownlist>
+        </span>
         <!--PRODUCT STATUS ID-->
 
         <!--PRICE BASE-->
@@ -87,31 +88,45 @@
         </span>
         <!--PRICE-->
 
+        <!--PRICE VIP-->
+        <span class="price-vip-container">
+            <kendo-label class="kendo-label"
+                         for="PriceVIP"
+                         text="Giá VIP"></kendo-label>
+            <kendo-textbox class="kendo-textbox"
+                           id="PriceVIP"
+                           disabled="true"
+                           value="{{PriceVIP}}"></kendo-textbox>
+        </span>
+        <!--PRICE VIP-->
+
         <!----------------------------------CHECKBOXES--------------------------------->
 
         <!---------NEW & HACHI 24H---------->
-        <!-- <div class="container-1"> -->
-        <!--IS NEW-->
-        <!-- <span class="is-new-container">
+        <div class="container-1">
+            <!--IS NEW-->
+            <span class="is-new-container">
                 <kendo-label class="kendo-label"
                              for="isNew"
                              text="Sản phẩm mới"></kendo-label>
                 <input type="checkbox"
                        id="isNew"
+                       disabled="true"
                        kendoCheckBox>
-            </span> -->
-        <!--IS NEW-->
-        <!--IS HACHI 24H-->
-        <!-- <span class="is-hachi-24h-container">
+            </span>
+            <!--IS NEW-->
+            <!--IS HACHI 24H-->
+            <span class="is-hachi-24h-container">
                 <kendo-label class="kendo-label"
                              for="isHachi24h"
                              text="Hachi 24h"></kendo-label>
                 <input type="checkbox"
                        id="isHachi24h"
+                       disabled="true"
                        kendoCheckBox>
-            </span> -->
-        <!--IS HACHI 24H-->
-        <!-- </div> -->
+            </span>
+            <!--IS HACHI 24H-->
+        </div>
         <!---------NEW & HACHI 24H---------->
 
         <!---------BEST PRICE & SPECIAL---------->
@@ -125,9 +140,38 @@
                 <input type="checkbox"
                        id="isBestPrice"
                        [checked]="isBestPrice"
-                       (change)="onCheckBestPrice($event)"
+                       disabled="true"
                        kendoCheckBox>
             </span>
+            <!--IS BEST PRICE-->
+            <!--IS SPECIAL-->
+            <span class="is-special-container">
+                <kendo-label class="kendo-label"
+                             for="isSpecial"
+                             text="Đặc biệt"></kendo-label>
+                <input type="checkbox"
+                       id="isSpecial"
+                       disabled="true"
+                       kendoCheckBox>
+            </span>
+            <!--IS SPECIAL-->
+        </div>
+        <!---------BEST PRICE & SPECIAL---------->
+
+        <!---------GIFT & PROMOTION---------->
+        <div class="container-3">
+            <!--IS GIFT-->
+            <span class="is-gift-container">
+                <kendo-label class="kendo-label"
+                             for="isGift"
+                             text="Quà Tặng"></kendo-label>
+                <input type="checkbox"
+                       id="isGift"
+                       disabled="true"
+                       kendoCheckBox>
+            </span>
+            <!--IS GIFT-->
+            <!--IS PROMOTION-->
             <span class="is-promotion-container">
                 <kendo-label class="kendo-label"
                              for="isPromotion"
@@ -135,67 +179,27 @@
                 <input type="checkbox"
                        id="isPromotion"
                        [checked]="isPromotion"
-                       (change)="onCheckPromotion($event)"
+                       disabled="true"
                        kendoCheckBox>
             </span>
+            <!--IS PROMOTION-->
         </div>
-
-        <!--IS BEST PRICE-->
-        <!--IS SPECIAL-->
-        <!-- <span class="is-special-container">
-                <kendo-label class="kendo-label"
-                             for="isSpecial"
-                             text="Đặc biệt"></kendo-label>
-                <input type="checkbox"
-                       id="isSpecial"
-                       kendoCheckBox>
-            </span> -->
-        <!--IS SPECIAL-->
-        <!-- </div> -->
-        <!---------BEST PRICE & SPECIAL---------->
-
-        <!---------GIFT & PROMOTION---------->
-        <!-- <div class="container-3"> -->
-        <!--IS GIFT-->
-        <!-- <span class="is-gift-container">
-                <kendo-label class="kendo-label"
-                             for="isGift"
-                             text="Quà Tặng"></kendo-label>
-                <input type="checkbox"
-                       id="isGift"
-                       kendoCheckBox>
-            </span> -->
-        <!--IS GIFT-->
-        <!--IS PROMOTION-->
-
-        <!--IS PROMOTION-->
-        <!-- </div> -->
         <!---------GIFT & PROMOTION---------->
 
         <!--IS COMBO-->
-        <!-- <div class="container-4">
+        <div class="container-4">
             <span class="is-combo-container">
                 <kendo-label class="kendo-label"
                              for="isCombo"
                              text="Combo"></kendo-label>
                 <input type="checkbox"
                        id="isCombo"
+                       disabled="true"
                        kendoCheckBox>
             </span>
-        </div> -->
+        </div>
         <!--IS COMBO-->
         <!----------------------------------CHECKBOXES--------------------------------->
-
-        <!--PRICE VIP-->
-        <!-- <span class="price-vip-container">
-            <kendo-label class="kendo-label"
-                         for="PriceVIP"
-                         text="Giá VIP"></kendo-label>
-            <kendo-textbox class="kendo-textbox"
-                           id="PriceVIP"
-                           value="{{PriceVIP}}"></kendo-textbox>
-        </span> -->
-        <!--PRICE VIP-->
 
         <!--PRODUCT IMAGE-->
         <ng-container *ngIf="isImageUrl">
@@ -207,10 +211,4 @@
         <!--PRODUCT IMAGE-->
     </form>
     <!--ADD NEW PRODUCT FORM-->
-    <div class="btns-container">
-        <kendo-button (click)="onCloseDrawer($event)"
-                      class="close-drawer-btn">ĐÓNG</kendo-button>
-        <kendo-button (click)="onSubmitProduct($event)"
-                      class="add-product-btn">{{buttonName}}</kendo-button>
-    </div>
 </div>
