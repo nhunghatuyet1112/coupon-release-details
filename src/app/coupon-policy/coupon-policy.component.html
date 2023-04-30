@@ -165,7 +165,46 @@
         </kendo-dialog-actions>
     </kendo-dialog>
     <kendo-drawer-content>
-        <app-header></app-header>
+        <div class="breadcrumb-buttons">
+            <kendo-breadcrumb class="breadcrumb"
+                              [items]="crumbContent">
+                <ng-template kendoBreadCrumbItemTemplate
+                             let-item
+                             let-index="index">
+                    <div class="item"
+                         role="button">
+                        <span>{{item.text}}</span>
+                    </div>
+                </ng-template>
+            </kendo-breadcrumb>
+            <div class="buttons">
+                <kendo-button class="coupon-list-btn"
+                              imageUrl="assets/header-assets/Chart-12.png">DANH SÁCH
+                    COUPON</kendo-button>
+                <kendo-button class="print-btn"
+                              iconClass="fa-solid fa-print"></kendo-button>
+                <kendo-button class="apply-btn"
+                              imageUrl="assets/header-assets/n-check.png">ÁP DỤNG</kendo-button>
+                <kendo-button class="unrelease-btn">XÓA ĐỢT PHÁT HÀNH</kendo-button>
+                <div class="add-btn-container">
+                    <kendo-button class="add-btn-1"
+                                  iconClass="fa-regular fa-plus">
+                        TẠO MỚI
+                        <kendo-button class="add-btn-2"
+                                      iconClass="fa-solid fa-chevron-down"></kendo-button>
+                    </kendo-button>
+                </div>
+                <div class="export-btn-container">
+                    <kendo-button class="export-btn-1"
+                                  iconClass="fa-solid fa-download"></kendo-button>
+                    <kendo-button class="export-btn-2"
+                                  imageUrl="assets/header-assets/xlsx.png"></kendo-button>
+                    <span class="line"></span>
+                    <kendo-button class="export-btn-3"
+                                  iconClass="fa-solid fa-chevron-down"></kendo-button>
+                </div>
+            </div>
+        </div>
         <div class="coupon-info-container">
             <div class="coupon-info">
                 <div class="coupon-info-label">

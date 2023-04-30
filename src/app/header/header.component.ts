@@ -8,11 +8,6 @@ import * as $ from 'jquery';
 })
 export class HeaderComponent {
   menuContent: string[] = ['CẤU HÌNH', 'MUA HÀNG', 'KHO HÀNG', 'ĐIỀU PHỐI', 'MARKETING', 'E-COMMERCE', 'KINH DOANH', 'NHÂN SỰ', 'BÁO CÁO']
-  crumbContent = [
-    { text: 'CHÍNH SÁCH', active: 'true' },
-    { text: 'COUPON' },
-    { text: 'CHI TIẾT ĐỢT PHÁT HÀNH' }
-  ]
 
   ngOnInit(): void {
     $('document').ready(() => {

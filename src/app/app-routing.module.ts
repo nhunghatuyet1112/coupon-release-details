@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainContentComponent } from './main-content/main-content.component';
+import { CouponPolicyComponent } from './coupon-policy/coupon-policy.component';
 
 const routes: Routes = [
-  { path: 'marketing', component: MainContentComponent }
+  { path: 'marketing', component: CouponPolicyComponent }
 ];
 
 @NgModule({

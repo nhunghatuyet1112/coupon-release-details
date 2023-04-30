@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { HeaderComponent } from './header/header.component';
-import { MainContentComponent } from './main-content/main-content.component';
+import { CouponPolicyComponent } from './coupon-policy/coupon-policy.component';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationModule } from '@progress/kendo-angular-navigation';
@@ -39,7 +39,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     SideBarComponent,
     HeaderComponent,
-    MainContentComponent,
+    CouponPolicyComponent,
     AddNewDrawerComponent,
   ],
   imports: [

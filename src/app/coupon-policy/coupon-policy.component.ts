@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { IntlService } from "@progress/kendo-angular-intl";
-
 import { PRODUCT } from '../DTO/DTO3p-return.dto';
 import { ProductlistService } from '../productlist.service';
 import { PopupSettings } from '@progress/kendo-angular-dateinputs';
@@ -9,16 +8,23 @@ import * as $ from 'jquery'
 import { newProduct } from '../DTO/DTO3p-return.dto';
 
 @Component({
-  selector: 'app-main-content',
-  templateUrl: './main-content.component.html',
-  styleUrls: ['./main-content.component.scss'],
+  selector: 'app-coupon-policy',
+  templateUrl: './coupon-policy.component.html',
+  styleUrls: ['./coupon-policy.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MainContentComponent {
+export class CouponPolicyComponent {
   constructor(public intl: IntlService, private productList: ProductlistService) {
 
   }
   ////////============================VARIABLES============================\\\\\\\\
+  //BREADCRUMB
+  crumbContent = [
+    { text: 'CHÍNH SÁCH', active: 'true' },
+    { text: 'COUPON' },
+    { text: 'CHI TIẾT ĐỢT PHÁT HÀNH' }
+  ]
+  //BREADCRUMB
   //============================FILTER============================\\
   public filterValue: string = '4';
   private initialFilterState: State = {
