@@ -42,6 +42,7 @@ export class AddNewDrawerComponent {
   @Input() Price = 0;
   @Input() PriceBase = 5;
   @Input() PriceVIP = 0;
+  public format = 'n0'
   //PRICE TEXTBOXES VALUE
 
 

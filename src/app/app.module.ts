@@ -16,7 +16,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { FormsModule } from '@angular/forms';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { IntlModule } from '@progress/kendo-angular-intl';
-import "@progress/kendo-angular-intl/locales/vi/calendar";
+import "@progress/kendo-angular-intl/locales/vi/all";
 import { GridModule } from '@progress/kendo-angular-grid';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { AddNewDrawerComponent } from './add-new-drawer/add-new-drawer.component';
@@ -62,7 +62,7 @@ import { AppRoutingModule } from './app-routing.module';
     DialogsModule,
     AppRoutingModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: "vi-VI" }],
+  providers: [{ provide: LOCALE_ID, useValue: "vi" }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

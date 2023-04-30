@@ -97,19 +97,23 @@
                 <kendo-label class="kendo-label"
                              for="priceBase"
                              text="Giá gốc"></kendo-label>
-                <kendo-textbox class="kendo-textbox"
-                               id="priceBase"
-                               value="{{productDetail.ObjectReturn.PriceBase}}"
-                               (valueChange)="onEditProductPriceBase($event)"></kendo-textbox>
+                <kendo-numerictextbox class="kendo-textbox"
+                                      id="priceBase"
+                                      [spinners]="false"
+                                      [format]="format"
+                                      [value]="productDetail.ObjectReturn.PriceBase"
+                                      (valueChange)="onEditProductPriceBase($event)"></kendo-numerictextbox>
             </div>
             <div class="input-price">
                 <kendo-label class="kendo-label"
                              for="Price"
                              text="Giá khuyến mãi"></kendo-label>
-                <kendo-textbox class="kendo-textbox"
-                               id="Price"
-                               value="{{productDetail.ObjectReturn.Price}}"
-                               (valueChange)="onEditProductPrice($event)"></kendo-textbox>
+                <kendo-numerictextbox class="kendo-textbox"
+                                      id="Price"
+                                      [spinners]="false"
+                                      [format]="format"
+                                      [value]="productDetail.ObjectReturn.Price"
+                                      (valueChange)="onEditProductPrice($event)"></kendo-numerictextbox>
             </div>
             <div class="checkboxes-container">
                 <span class="checkbox-bestprice">
@@ -515,15 +519,19 @@
                         <kendo-button #openDateTimePicker
                                       (click)="showDateTimePicker = !showDateTimePicker"
                                       icon="calendar"></kendo-button>
-                        <kendo-dateinput format="dd/MM/yyyy h:mm a"
+                        <kendo-dateinput format="dd/MM/yyyy h:mm"
                                          [value]="valueDateTime">
                         </kendo-dateinput>
                         <kendo-popup popupClass="date-time-picker"
                                      [anchor]="openDateTimePicker.element"
                                      *ngIf="showDateTimePicker">
                             <kendo-calendar type="classic"
+                                            [weekNumber]="false"
                                             [value]="valueDate"
                                             (valueChange)="onChangeDate($event)">
+                                <!-- <ng-template kendoCalendarHeaderTitleTemplate
+                                             let-title>
+                                </ng-template> -->
                             </kendo-calendar>
                             <div class="time-picker">
                                 <span class="all-day">

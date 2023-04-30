@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { IntlService } from "@progress/kendo-angular-intl";
+
 import { PRODUCT } from '../DTO/DTO3p-return.dto';
 import { ProductlistService } from '../productlist.service';
 import { PopupSettings } from '@progress/kendo-angular-dateinputs';
@@ -80,6 +81,7 @@ export class MainContentComponent {
   //============================EDIT & DELETE DIALOG============================\\
   public isEditDialogOpened = false;
   public isDeleteDialogOpened = false;
+  public format = 'n0';
   //============================EDIT & DELETE DIALOG============================\\
 
 

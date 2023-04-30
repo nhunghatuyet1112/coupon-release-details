@@ -68,10 +68,12 @@
             <kendo-label class="kendo-label"
                          for="PriceBase"
                          text="Giá gốc"></kendo-label>
-            <kendo-textbox class="kendo-textbox"
-                           id="PriceBase"
-                           value="{{PriceBase}}"
-                           (valueChange)="onChangePriceBase($event)"></kendo-textbox>
+            <kendo-numerictextbox class="kendo-textbox"
+                                  id="PriceBase"
+                                  [value]="PriceBase"
+                                  [format]="format"
+                                  [spinners]="false"
+                                  (valueChange)="onChangePriceBase($event)"></kendo-numerictextbox>
         </span>
         <!--PRICE BASE-->
 
@@ -81,10 +83,12 @@
                          for="Price"
                          text="Giá khuyến mãi">
             </kendo-label>
-            <kendo-textbox class="kendo-textbox"
-                           id="Price"
-                           value="{{Price}}"
-                           (valueChange)="onChangePrice($event)"></kendo-textbox>
+            <kendo-numerictextbox class="kendo-textbox"
+                                  id="Price"
+                                  [value]="Price"
+                                  [format]="format"
+                                  [spinners]="false"
+                                  (valueChange)="onChangePrice($event)"></kendo-numerictextbox>
         </span>
         <!--PRICE-->
 
@@ -93,10 +97,12 @@
             <kendo-label class="kendo-label"
                          for="PriceVIP"
                          text="Giá VIP"></kendo-label>
-            <kendo-textbox class="kendo-textbox"
-                           id="PriceVIP"
-                           disabled="true"
-                           value="{{PriceVIP}}"></kendo-textbox>
+            <kendo-numerictextbox class="kendo-textbox"
+                                  id="PriceVIP"
+                                  [format]="format"
+                                  [spinners]="false"
+                                  disabled="true"
+                                  [value]="PriceVIP"></kendo-numerictextbox>
         </span>
         <!--PRICE VIP-->
 
