@@ -440,10 +440,23 @@ export class CouponPolicyComponent {
 
   //============================HANDLE DELETE PRODUCT DIALOG============================\\
   onOpenDeleteDialog(code: number, barcode: string, name: string) {
+    if (code == 0) {
+      this.productList.getProducts(this.initialFilterState).subscribe(r => {
+        let result = r.ObjectReturn.Data.find(r => {
+          return r.Barcode == barcode;
+        })
+        this.productList.getProduct({ Code: result.Code, Barcode: result.Barcode }).subscribe(product => {
+          this.productDetail.ObjectReturn = product.ObjectReturn
+          console.log(this.productDetail.ObjectReturn);
+        })
+      })
+    }
+    else {
+      this.productList.getProduct({ Code: code, Barcode: barcode }).subscribe(product => {
+        this.productDetail.ObjectReturn = product.ObjectReturn;
+      })
+    }
     this.isDeleteDialogOpened = true;
-    this.productDetail.ObjectReturn.Code = code;
-    this.productDetail.ObjectReturn.Barcode = barcode;
-    this.productDetail.ObjectReturn.ProductName = name;
   }
 
   onDeleteProduct() {
