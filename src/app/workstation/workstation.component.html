@@ -1,0 +1,75 @@
+<kendo-drawer-container class="workstation-container">
+    <kendo-drawer #workStationDrawer
+                  mode="overlay"
+                  [(expanded)]="expanded"
+                  position="end">
+        <ng-template kendoDrawerTemplate>
+            <app-workstation-drawer *ngIf="expanded"></app-workstation-drawer>
+        </ng-template>
+    </kendo-drawer>
+    <kendo-drawer-content>
+        <div class="filter-addnew-container">
+            <div class="filter-container">
+                <div class="clear-filter">
+                    <span class="title">
+                        <i class="fa-solid fa-filter"></i>
+                        <i class="text">LỌC DỮ LIỆU</i>
+                    </span>
+                    <kendo-button class="clear-btn">Xóa bộ lọc</kendo-button>
+                </div>
+                <div class="search-filter">
+                    <div class="search-input">
+                        <kendo-label class="label"
+                                     for="searchInfo"
+                                     text="Tìm kiếm"></kendo-label>
+                        <kendo-textbox id="searchInfo"
+                                       placeholder="Tìm theo mã, họ và tên nhân viên, chức danh">
+                            <ng-template kendoTextBoxPrefixTemplate>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </ng-template>
+                        </kendo-textbox>
+                    </div>
+                    <kendo-button class="search-btn">
+                        <i class="fa-solid fa-magnifying-glass"></i><i>Tìm</i>
+                    </kendo-button>
+                </div>
+            </div>
+            <div class="addnew-container">
+                <kendo-button class="add-workplace">
+                    <i class="fa-solid fa-diagram-project"></i><i>THÊM ĐIỂM LÀM VIỆC</i>
+                </kendo-button>
+                <kendo-button class="add-workplace-child">
+                    <i class="fa-solid fa-diagram-project"></i><i>THÊM ĐIỂM LÀM VIỆC CON</i>
+                </kendo-button>
+            </div>
+        </div>
+        <div class="list-container">
+            <kendo-treelist class="workstation-list"
+                            [kendoTreeListHierarchyBinding]="listData"
+                            childrenField="content"
+                            [initiallyExpanded]="true"
+                            [rowClass]="rowCallBack"
+                            kendoTreeListExpandable>
+                <kendo-treelist-column field="name"
+                                       [expandable]="true"
+                                       class="list-cell"
+                                       [headerStyle]="{'display': 'none'}">
+                    <ng-template kendoTreeListCellTemplate
+                                 let-dataItem>
+                        <span class="fa-solid fa-location-dot"></span>
+                        {{dataItem.name}}
+                    </ng-template>
+                </kendo-treelist-column>
+                <kendo-treelist-column field="code"
+                                       [headerStyle]="{'display': 'none'}">
+                </kendo-treelist-column>
+                <kendo-treelist-column [headerStyle]="{'display': 'none'}">
+                    <ng-template kendoTreeListCellTemplate>
+                        <button kendoButton
+                                iconClass="fa-solid fa-ellipsis"></button>
+                    </ng-template>
+                </kendo-treelist-column>
+            </kendo-treelist>
+        </div>
+    </kendo-drawer-content>
+</kendo-drawer-container>
