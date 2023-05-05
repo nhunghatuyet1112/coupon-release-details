@@ -16,7 +16,11 @@ hr {
             color: #FFFFFF;
             .k-drawer-items{
                 .k-drawer-item{
+                    font-size: 13px;
                     padding: 15px 16px;
+                    .k-drawer-toggle{
+                        display: none;
+                    }
                 }
                 .k-drawer-item:focus{
                     background-color: #1A2334;
@@ -39,7 +43,15 @@ hr {
                 .k-drawer-item.k-level-1.k-selected {
                     color: #FFFFFF;
                     box-shadow: none;
+                }   
+                .k-level-0:has(+ .k-level-1){
+                    border-left: 5px solid #FFFFFF;
+                    background-color: #1A2334;
+                    color: #FFFFFF;
+                    font-size: 13px;
+                    font-weight: 700;
                 }
+
             }
         }
     }

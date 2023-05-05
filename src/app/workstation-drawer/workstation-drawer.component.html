@@ -1,0 +1,98 @@
+<div class="add-update-workstation">
+    <form class="add-update-form">
+        <div class="title">
+            <span class="fa-solid fa-diagram-project"></span>
+            <span>THÔNG TIN ĐIỂM LÀM VIỆC</span>
+        </div>
+        <div class="content">
+            <div class="name">
+                <kendo-label for="Name"
+                             text="Tên điểm làm việc"></kendo-label>
+                <kendo-textbox id="Name"
+                               value="{{WorkstationData.name}}"></kendo-textbox>
+            </div>
+            <div class="code-shortname">
+                <span class="code">
+                    <kendo-label for="Code"
+                                 text="Mã điểm làm việc"></kendo-label>
+                    <kendo-textbox id="Code"
+                                   value="{{WorkstationData.code}}"></kendo-textbox>
+                </span>
+                <span class="shortname">
+                    <kendo-label for="Shortname"
+                                 text="Tên viết tắt"></kendo-label>
+                    <kendo-textbox id="Shortname"
+                                   value="{{WorkstationData.shortName}}"></kendo-textbox>
+                </span>
+            </div>
+            <div class="dependent-place">
+                <kendo-label text="Trực thuộc">
+                </kendo-label>
+                <kendo-dropdownlist [data]="dependentPlaceData"
+                                    iconClass="fa-solid fa-chevron-down"
+                                    textField="text"
+                                    valueField="value"
+                                    valuePrimitive="true"
+                                    [(value)]="selectedPlace"></kendo-dropdownlist>
+            </div>
+            <div class="address">
+                <kendo-label for="Address"
+                             text="Địa chỉ liên hệ"></kendo-label>
+                <kendo-textbox id="Address"
+                               value="{{WorkstationData.address}}"></kendo-textbox>
+            </div>
+            <div class="city">
+                <kendo-label text="Tỉnh thành">
+                </kendo-label>
+                <kendo-dropdownlist [data]="citiesData"
+                                    iconClass="fa-solid fa-chevron-down"
+                                    textField="text"
+                                    valueField="value"
+                                    valuePrimitive="true"
+                                    [(value)]="selectedCity"></kendo-dropdownlist>
+            </div>
+            <div class="district">
+                <kendo-label text="Quận huyện">
+                </kendo-label>
+                <kendo-dropdownlist [data]="districtsData"
+                                    iconClass="fa-solid fa-chevron-down"
+                                    textField="text"
+                                    valueField="value"
+                                    valuePrimitive="true"
+                                    [(value)]="selectedDistrict"></kendo-dropdownlist>
+            </div>
+            <div class="ward">
+                <kendo-label text="Phường xã">
+                </kendo-label>
+                <kendo-dropdownlist [data]="wardsData"
+                                    iconClass="fa-solid fa-chevron-down"
+                                    textField="text"
+                                    valueField="value"
+                                    valuePrimitive="true"
+                                    [(value)]="selectedWard"></kendo-dropdownlist>
+            </div>
+            <div class="description">
+                <kendo-label for="Description"
+                             text="Mô tả"></kendo-label>
+                <kendo-textarea id="Description"
+                                value="{{WorkstationData.descr}}"></kendo-textarea>
+            </div>
+            <div class="status">
+                <kendo-label text="Tình trạng">
+                </kendo-label>
+                <kendo-dropdownlist [data]="Status"
+                                    iconClass="fa-solid fa-chevron-down"
+                                    textField="text"
+                                    valueField="value"
+                                    valuePrimitive="true"
+                                    [(value)]="selectedStatus"></kendo-dropdownlist>
+            </div>
+        </div>
+        <div class="footer">
+            <kendo-button class="close-drawer-btn"
+                          (click)="onCloseDrawer($event)">ĐÓNG</kendo-button>
+            <kendo-button class="add-update-btn"
+                          (click)="onSubmitDrawer($event)">CẬP NHẬT</kendo-button>
+        </div>
+    </form>
+</div>

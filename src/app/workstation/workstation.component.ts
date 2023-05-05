@@ -9,8 +9,9 @@ import { RowClassArgs } from '@progress/kendo-angular-treelist';
   encapsulation: ViewEncapsulation.None,
 })
 export class WorkstationComponent {
+  ///////////////////////////////////VARIABLES///////////////////////////////////
   //////////////////TREE LIST
-  public expanded = true;
+  public expanded = false;
 
   public listData: Workstation[] = WORKSTATION;
 
@@ -28,4 +29,46 @@ export class WorkstationComponent {
     }
   }
   //////////////////TREE LIST
+
+  //////////////////DRAWER
+  //DATA PASS TO DRAWER COMPONENT
+  public dependentPlace = [
+    { text: 'Văn phòng', value: 0 },
+    { text: 'Kho', value: 1 }
+  ]
+
+  public citiesData = [
+    { text: 'TP. Hồ Chí Minh', value: 0 }
+  ]
+
+  public districtsData = [
+    { text: 'Quận Gò Vấp', value: 0 }
+  ]
+
+  public wardsData = [
+    { text: 'Phường 5', value: 0 }
+  ]
+
+  public status = [
+    { text: 'Đang áp dụng', value: 0 }
+  ]
+  //DATA PASS TO DRAWER COMPONENT
+
+  public workstationData = new Workstation('Văn phòng 40', 'VP04', 'VP Head', 0, '40 đường số 14', 0, 0, 0, '', 0)
+  //////////////////DRAWER
+  ///////////////////////////////////VARIABLES///////////////////////////////////
+
+  ///////////////////////////////////FUNCTIONS///////////////////////////////////
+  //PASS TO DRAWER COMPONENT
+  public closeDrawer(drawer: any) {
+    drawer.toggle()
+  }
+
+  public submitDrawer(drawer: any) {
+    drawer.toggle()
+  }
+  //PASS TO DRAWER COMPONENT
+
+  ///////////////////////////////////FUNCTIONS///////////////////////////////////
+
 }

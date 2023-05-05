@@ -23,6 +23,10 @@ import { AddNewDrawerComponent } from './add-new-drawer/add-new-drawer.component
 import { FilterModule } from '@progress/kendo-angular-filter';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { AppRoutingModule } from './app-routing.module';
+import { WorkstationComponent } from './workstation/workstation.component';
+import { TreeListModule } from '@progress/kendo-angular-treelist';
+import { WorkstationDrawerComponent } from './workstation-drawer/workstation-drawer.component';
+
 
 
 
@@ -41,6 +45,8 @@ import { AppRoutingModule } from './app-routing.module';
     HeaderComponent,
     CouponPolicyComponent,
     AddNewDrawerComponent,
+    WorkstationComponent,
+    WorkstationDrawerComponent,
   ],
   imports: [
     IntlModule,
@@ -61,6 +67,7 @@ import { AppRoutingModule } from './app-routing.module';
     FilterModule,
     DialogsModule,
     AppRoutingModule,
+    TreeListModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "vi" }],
   bootstrap: [AppComponent]

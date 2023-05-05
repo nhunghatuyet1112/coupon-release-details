@@ -1,14 +1,14 @@
 export class Workstation {
-    name: string;
-    code: string;
+    name?: string;
+    code?: string;
     shortName?: string;
-    dependentPlace?: string;
+    dependentPlace?: any;
     address?: string;
-    city?: string;
-    district?: string;
-    ward?: string;
+    city?: any;
+    district?: any;
+    ward?: any;
     descr?: string;
-    status?: string;
+    status?: any;
     content?: Workstation[];
     constructor(name, code, shortName, dependentPlace, address, city, district, ward, descr, status) {
         this.name = name;

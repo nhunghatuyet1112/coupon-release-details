@@ -4,7 +4,15 @@
                   [(expanded)]="expanded"
                   position="end">
         <ng-template kendoDrawerTemplate>
-            <app-workstation-drawer *ngIf="expanded"></app-workstation-drawer>
+            <app-workstation-drawer *ngIf="expanded"
+                                    [WorkstationData]="workstationData"
+                                    [dependentPlaceData]="dependentPlace"
+                                    [citiesData]="citiesData"
+                                    [districtsData]="districtsData"
+                                    [wardsData]="wardsData"
+                                    [Status]="status"
+                                    (closeDrawer)="closeDrawer(workStationDrawer)"
+                                    (submitDrawer)="submitDrawer(workStationDrawer)"></app-workstation-drawer>
         </ng-template>
     </kendo-drawer>
     <kendo-drawer-content>
@@ -35,10 +43,12 @@
                 </div>
             </div>
             <div class="addnew-container">
-                <kendo-button class="add-workplace">
+                <kendo-button class="add-workplace"
+                              (click)="workStationDrawer.toggle()">
                     <i class="fa-solid fa-diagram-project"></i><i>THÊM ĐIỂM LÀM VIỆC</i>
                 </kendo-button>
-                <kendo-button class="add-workplace-child">
+                <kendo-button class="add-workplace-child"
+                              (click)="workStationDrawer.toggle()">
                     <i class="fa-solid fa-diagram-project"></i><i>THÊM ĐIỂM LÀM VIỆC CON</i>
                 </kendo-button>
             </div>
@@ -66,6 +76,7 @@
                 <kendo-treelist-column [headerStyle]="{'display': 'none'}">
                     <ng-template kendoTreeListCellTemplate>
                         <button kendoButton
+                                (click)="workStationDrawer.toggle()"
                                 iconClass="fa-solid fa-ellipsis"></button>
                     </ng-template>
                 </kendo-treelist-column>
