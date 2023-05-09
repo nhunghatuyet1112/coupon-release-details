@@ -104,6 +104,12 @@
                         background-color: #FFFFFF;
                         padding-block: 20px;
                         border-style: none;
+                        .k-i-caret-alt-down.k-icon::before{
+                            content: '\e013';
+                        }
+                        .k-icon.k-i-caret-alt-right::before{
+                            content: '\e015';
+                        }
                     }
                     .k-table-row{
                         .k-table-td:first-child {

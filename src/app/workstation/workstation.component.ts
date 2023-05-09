@@ -1,6 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Workstation, WORKSTATION } from '../DTO/DTO3p-workstation.dto';
 import { RowClassArgs } from '@progress/kendo-angular-treelist';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-workstation',
@@ -8,7 +9,7 @@ import { RowClassArgs } from '@progress/kendo-angular-treelist';
   styleUrls: ['./workstation.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WorkstationComponent {
+export class WorkstationComponent implements OnInit, AfterViewInit {
   ///////////////////////////////////VARIABLES///////////////////////////////////
   //////////////////TREE LIST
   public expanded = false;
@@ -68,7 +69,15 @@ export class WorkstationComponent {
     drawer.toggle()
   }
   //PASS TO DRAWER COMPONENT
+  ngOnInit(): void {
 
+  }
+  ngAfterViewInit(): void {
+    // $(document).ready(() => {
+    //   $('.k-table-row.vp .k-i-caret-alt-down.k-icon').addClass('fa-solid');
+    //   $('.k-table-row.dp .k-i-caret-alt-down.k-icon').addClass('fa-solid');
+    // })
+  }
   ///////////////////////////////////FUNCTIONS///////////////////////////////////
 
 }
