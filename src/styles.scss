@@ -10,3 +10,10 @@ html {
     height: 2010px;
     background-color: #EDEFF3;
 }
+
+.k-checkbox:checked:focus{
+    border-color:#008000;
+    box-shadow: none;
+    background-color: #008000;
+    border-style: none;
+}

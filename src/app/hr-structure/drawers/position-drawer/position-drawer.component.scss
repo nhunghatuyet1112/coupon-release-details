@@ -1,0 +1,116 @@
+.add-update-position{
+    height: 100%;
+    .add-update-form{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        width: 100%;
+        float: right;    
+        background-color: #FFFFFF;
+        height: 100%;
+        .k-focus {
+            box-shadow: none;
+        }
+        .title {
+            height: 5%;
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 16px;
+            color: #1A6634;
+            padding: 10px 0;
+            border-bottom: 1px solid #000000;
+            .icon {
+                padding: 0 15px;
+            }
+        }
+        .content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+            justify-content: space-between;
+            margin: 0 15px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            .k-label {
+                font-weight: 700;
+                font-size: 13px;
+                line-height: 16px;
+                color: #343A40;
+            }
+            .k-input {
+                border: 2px solid #DBDEE7;
+            }
+            .k-dropdownlist {
+                text-overflow:clip;
+                background-color: #FFFFFF;
+                background-image: none;
+                border: 2px solid #DBDEE7;
+            }
+            div {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                row-gap: 10px;
+            }
+            .code-isleader {
+                flex-direction: row;
+                column-gap: 10px;
+                align-items: flex-end;
+                .code {
+                    width: 40%;
+    
+                }
+            }
+            .dependent-place, .grouping, .status {
+                width: 40%;
+            }
+            .management-title {
+                width: 55%;
+            }
+            .add-new-role {
+                flex-direction: row;
+                .k-button {
+                    padding: 0;
+                    padding-block: 0;
+                    padding-inline: 0;
+                    border-style: none;
+                    background-color: transparent;
+                    margin-left: 5px;
+                    color: #1A6634;
+                }
+            }
+        }
+        .content::-webkit-scrollbar{
+            display: none;
+        }
+        .footer {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            height: 5%;
+            margin-left: 15px;
+            .close-drawer-btn {
+                width: 30%;
+                height: 40px;
+                background-color: #FFFFFF;
+                color: #1A6634;
+                font-weight: 700;
+                background-image: none;
+                margin-right: 10px;
+                box-shadow: 0px 4px 12px -2px rgb(96, 173, 232);
+            }
+            .add-update-btn {
+                width: 30%;
+                height: 40px;
+                background-color: #1A6634;
+                color: #FFFFFF;
+                font-weight: 700;
+                background-image: none;
+                box-shadow: 0px 4px 12px -2px rgb(96, 173, 232);
+            }
+        }
+    }
+}

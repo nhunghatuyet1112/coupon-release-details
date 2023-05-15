@@ -1,0 +1,62 @@
+<div class="add-update-position">
+    <form class="add-update-form">
+        <div class="title">
+            <img class="icon"
+                 src="assets/hr-structure/icons/drawer-icon/User.svg">
+            <span>THÔNG TIN ĐƠN VỊ</span>
+        </div>
+        <div class="content">
+            <div class="name">
+                <kendo-label for="Name"
+                             text="Tên chức danh"></kendo-label>
+                <kendo-textbox id="Name"></kendo-textbox>
+            </div>
+            <div class="code-isleader">
+                <div class="code">
+                    <kendo-label for="Code"
+                                 text="Mã chức danh"></kendo-label>
+                    <kendo-textbox id="Code">
+                    </kendo-textbox>
+                </div>
+                <span class="is-leader">
+                    <input type="checkbox"
+                           id="isLeader"
+                           kendoCheckBox>
+                    <kendo-label for="isLeader"
+                                 text="Là trưởng đơn vị"></kendo-label>
+                </span>
+            </div>
+            <div class="dependent-place">
+                <kendo-label text="Đơn vị trực thuộc"></kendo-label>
+                <kendo-dropdownlist></kendo-dropdownlist>
+            </div>
+            <div class="management-title">
+                <kendo-label text="Chức danh quản lý hành chính"></kendo-label>
+                <kendo-dropdownlist></kendo-dropdownlist>
+            </div>
+            <div class="grouping">
+                <kendo-label text="Phân nhóm"></kendo-label>
+                <kendo-dropdownlist></kendo-dropdownlist>
+            </div>
+            <div class="role">
+                <div class="add-new-role">
+                    <kendo-label text="Vai trò sử dụng tài nguyên hệ thống"></kendo-label>
+                    <kendo-button iconClass="fa-solid fa-plus"></kendo-button>
+                </div>
+                <kendo-dropdownlist></kendo-dropdownlist>
+            </div>
+
+            <div class="status">
+                <kendo-label text="Tình trạng">
+                </kendo-label>
+                <kendo-dropdownlist></kendo-dropdownlist>
+            </div>
+        </div>
+        <div class="footer">
+            <kendo-button class="close-drawer-btn"
+                          (click)="onCloseDrawer($event)">ĐÓNG</kendo-button>
+            <kendo-button class="add-update-btn"
+                          (click)="onSubmitDrawer($event)">{{buttonText}}</kendo-button>
+        </div>
+    </form>
+</div>

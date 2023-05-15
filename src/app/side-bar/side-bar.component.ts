@@ -38,7 +38,7 @@ export class SideBarComponent {
 
   public expandedIndices = [];
   public isItemExpanded: DrawerItemExpandedFn = (item): boolean => {
-    return this.expandedIndices.indexOf(item.id) >= 0;
+    return this.expandedIndices.indexOf(item.id) <= 0;
   };
   public onSelect(ev: DrawerSelectEvent): void {
     this.selected = ev.item.text;

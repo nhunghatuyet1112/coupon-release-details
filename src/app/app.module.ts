@@ -26,6 +26,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { WorkstationComponent } from './workstation/workstation.component';
 import { TreeListModule } from '@progress/kendo-angular-treelist';
 import { WorkstationDrawerComponent } from './workstation-drawer/workstation-drawer.component';
+import { HrStructureComponent } from './hr-structure/hr-structure.component';
+import { DepartmentDrawerComponent } from './hr-structure/drawers/department-drawer/department-drawer.component';
+import { PositionDrawerComponent } from './hr-structure/drawers/position-drawer/position-drawer.component';
 
 
 
@@ -47,6 +50,9 @@ import { WorkstationDrawerComponent } from './workstation-drawer/workstation-dra
     AddNewDrawerComponent,
     WorkstationComponent,
     WorkstationDrawerComponent,
+    HrStructureComponent,
+    DepartmentDrawerComponent,
+    PositionDrawerComponent,
   ],
   imports: [
     IntlModule,

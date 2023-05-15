@@ -1,0 +1,77 @@
+<div class="add-update-department">
+    <form class="add-update-form">
+        <div class="title">
+            <img class="icon"
+                 src="assets/hr-structure/icons/drawer-icon/green-department-icon.svg">
+            <span>THÔNG TIN ĐƠN VỊ</span>
+        </div>
+        <div class="content">
+            <div class="name">
+                <kendo-label for="Name"
+                             text="Tên đơn vị"></kendo-label>
+                <kendo-textbox id="Name"></kendo-textbox>
+            </div>
+            <div class="code-shortname">
+                <span class="code">
+                    <kendo-label for="Code"
+                                 text="Mã đơn vị"></kendo-label>
+                    <kendo-textbox id="Code">
+                    </kendo-textbox>
+                </span>
+                <span class="shortname">
+                    <kendo-label for="Shortname"
+                                 text="Tên viết tắt">
+                    </kendo-label>
+                    <kendo-textbox id="Shortname">
+                    </kendo-textbox>
+                </span>
+            </div>
+            <div class="dependent-place">
+                <kendo-label text="Đơn vị trực thuộc"></kendo-label>
+                <kendo-dropdownlist></kendo-dropdownlist>
+            </div>
+            <div class="workstation">
+                <kendo-label text="Điểm làm việc"></kendo-label>
+                <kendo-textbox>
+                    <kendo-chip></kendo-chip>
+                    <ng-template kendoTextBoxSuffixTemplate>
+                        <kendo-button></kendo-button>
+                    </ng-template>
+                </kendo-textbox>
+            </div>
+            <div class="phonenumber">
+                <kendo-label for="Phonenumber"
+                             text="Điện thoại">
+                </kendo-label>
+                <kendo-textbox id="Phonenumber">
+                </kendo-textbox>
+            </div>
+            <div class="fax">
+                <kendo-label for="Fax"
+                             text="Fax">
+                </kendo-label>
+                <kendo-textbox id="Fax">
+                </kendo-textbox>
+            </div>
+            <div class="brief">
+                <kendo-label for="Brief"
+                             text="Chức năng, nhiệm vụ">
+                </kendo-label>
+                <kendo-textarea id="Brief"
+                                rows="5">
+                </kendo-textarea>
+            </div>
+            <div class="status">
+                <kendo-label text="Tình trạng">
+                </kendo-label>
+                <kendo-dropdownlist></kendo-dropdownlist>
+            </div>
+        </div>
+        <div class="footer">
+            <kendo-button class="close-drawer-btn"
+                          (click)="onCloseDrawer($event)">ĐÓNG</kendo-button>
+            <kendo-button class="add-update-btn"
+                          (click)="onSubmitDrawer($event)">{{buttonText}}</kendo-button>
+        </div>
+    </form>
+</div>

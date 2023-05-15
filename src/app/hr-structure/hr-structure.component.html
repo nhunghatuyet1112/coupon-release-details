@@ -1,0 +1,131 @@
+<kendo-drawer-container class="hr-structure-container">
+    <kendo-drawer #hrStructureDrawer
+                  mode="overlay"
+                  [(expanded)]="departmentDrawerExpanded"
+                  position="end">
+        <ng-template kendoDrawerTemplate>
+            <app-department-drawer [buttonText]="buttonText"
+                                   (closeDrawer)="closeDrawer(hrStructureDrawer)"
+                                   (submitDrawer)="submitDrawer(hrStructureDrawer)"></app-department-drawer>
+        </ng-template>
+    </kendo-drawer>
+    <kendo-drawer #hrPositionDrawer
+                  mode="overlay"
+                  [(expanded)]="positionDrawerExpanded"
+                  position="end">
+        <ng-template kendoDrawerTemplate>
+            <app-position-drawer [buttonText]="buttonText"
+                                 (closeDrawer)="closeDrawer(hrPositionDrawer)"
+                                 (submitDrawer)="submitDrawer(hrPositionDrawer)"></app-position-drawer>
+        </ng-template>
+    </kendo-drawer>
+    <kendo-drawer-content>
+        <div class="filter-addnew-container">
+            <div class="filter-container">
+                <div class="clear-filter">
+                    <span class="title">
+                        <i class="fa-solid fa-filter"></i>
+                        <i class="text">LỌC DỮ LIỆU</i>
+                    </span>
+                    <kendo-button class="clear-btn">Xóa bộ lọc</kendo-button>
+                </div>
+                <div class="search-filter">
+                    <div class="search-input">
+                        <kendo-label class="label"
+                                     for="searchInfo"
+                                     text="Tìm kiếm"></kendo-label>
+                        <kendo-textbox id="searchInfo"
+                                       placeholder="Tìm theo mã, họ và tên nhân viên, chức danh">
+                            <ng-template kendoTextBoxPrefixTemplate>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </ng-template>
+                        </kendo-textbox>
+                    </div>
+                    <kendo-button class="search-btn">
+                        <i class="fa-solid fa-magnifying-glass"></i><i>Tìm</i>
+                    </kendo-button>
+                </div>
+            </div>
+            <div class="addnew-container">
+                <kendo-button class="add-unit"
+                              (click)="openAddDrawer(hrStructureDrawer)">
+                    <i class="fa-solid fa-diagram-project"></i><i>THÊM MỚI ĐƠN VỊ</i>
+                </kendo-button>
+                <kendo-button class="add-child-unit"
+                              (click)="openAddDrawer(hrStructureDrawer)">
+                    <i class="fa-solid fa-diagram-project"></i><i>THÊM MỚI ĐƠN VỊ CON</i>
+                </kendo-button>
+                <kendo-button class="add-title"
+                              (click)="openAddDrawer(hrPositionDrawer)">
+                    <i class="fa-solid fa-diagram-project"></i><i>THÊM MỚI CHỨC DANH</i>
+                </kendo-button>
+            </div>
+        </div>
+        <div class="list-container">
+            <kendo-treelist class="hr-structure-list"
+                            [data]="listData"
+                            [fetchChildren]="fetchChildren"
+                            [hasChildren]="hasChildren"
+                            [initiallyExpanded]="true"
+                            kendoTreeListExpandable>
+                <kendo-treelist-column [expandable]="true"
+                                       class="list-cell"
+                                       [headerStyle]="{'display': 'none'}">
+                    <ng-template kendoTreeListCellTemplate
+                                 let-dataItem>
+                        <span [class.department]="isDepartment(dataItem)">
+                            <ng-container *ngIf="dataItem.Department">
+                                <img src="assets/hr-structure/icons/department-icon.svg" />
+                            </ng-container>
+                            <ng-container *ngIf="dataItem.Position">
+                                <img src="assets/hr-structure/icons/User.svg" />
+                            </ng-container>
+                            {{dataItem.Position || dataItem.Department}}
+                        </span>
+                    </ng-template>
+                </kendo-treelist-column>
+                <kendo-treelist-column [headerStyle]="{'display': 'none'}"
+                                       [expandable]="true">
+                    <ng-template kendoTreeListCellTemplate
+                                 let-dataItem>
+                        <span>{{dataItem.PositionID || dataItem.DepartmentID}}
+                        </span>
+                    </ng-template>
+                </kendo-treelist-column>
+                <kendo-treelist-column [headerStyle]="{'display': 'none'}">
+                    <ng-template kendoTreeListCellTemplate
+                                 let-dataItem>
+                        <span>{{dataItem.IsLeader ? 'Trưởng đơn vị': ''}}
+                        </span>
+                    </ng-template>
+                </kendo-treelist-column>
+                <kendo-treelist-column [headerStyle]="{'display': 'none'}">
+                    <ng-template kendoTreeListCellTemplate
+                                 let-dataItem>
+                        <button #anchor
+                                kendoButton
+                                (click)="onOpenPopup(anchor.element)"
+                                iconClass="fa-solid fa-ellipsis"></button>
+                    </ng-template>
+                </kendo-treelist-column>
+            </kendo-treelist>
+            <kendo-popup [offset]="offset"
+                         style="position: absolute;"
+                         *ngIf="isPopupHidden">
+                <div class="popup-contents">
+                    <kendo-button iconClass="fa-solid fa-pencil"
+                                  (click)="openEditDrawer(hrStructureDrawer)">Chỉnh sửa</kendo-button>
+
+                    <kendo-button iconClass="fa-solid fa-diagram-project"
+                                  (click)="openAddDrawer(hrStructureDrawer)">Thêm mới đơn vị</kendo-button>
+
+                    <kendo-button iconClass="fa-solid fa-diagram-project"
+                                  (click)="openAddDrawer(hrStructureDrawer)">Thêm mới đơn vị con</kendo-button>
+
+                    <kendo-button iconClass="fa-regular fa-user"
+                                  (click)="openAddDrawer(hrPositionDrawer)">Thêm mới chức danh</kendo-button>
+                </div>
+            </kendo-popup>
+        </div>
+    </kendo-drawer-content>
+</kendo-drawer-container>
