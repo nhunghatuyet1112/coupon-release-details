@@ -7,15 +7,30 @@ import { MultiSelectComponent, PopupSettings } from '@progress/kendo-angular-dro
   encapsulation: ViewEncapsulation.None
 })
 export class PositionDrawerComponent {
+  ///////////////////////////////////VARIABLES///////////////////////////////////
   //BUTTON TEXT
   @Input() buttonText = '';
   //BUTTON TEXT
 
+  //DEPARTMENT DROPDOWN
+  @Input() listDepartments: Array<{ text: string, value: number }> = [];
+  @Input() selectedDepartment: { text: string, value: number };
+  //DEPARTMENT DROPDOWN
 
-  //MULTISELECT
-  @Input() listItems: Array<string> = ["Giám đốc"];
-  @Input() selectedItems: any[] = [];
-  newItem: string;
+  //LIST POSITION
+  @Input() listPositions: Array<{ text: string, value: number }> = [];
+  @Input() selectedPosition: { text: string, value: number };
+  //LIST POSITION
+
+  //LIST POSITION GROUP
+  @Input() listPositionGroup: Array<{ text: string, value: number }> = [];
+  @Input() selectedPositionGroup: { text: string, value: number };
+  //LIST POSITION GROUP
+
+  //LIST POSITION ROLE
+  newItem: { text: string, value: number };
+  @Input() listPositionRoles: Array<{ text: string, value: number }> = [];
+  @Input() selectedPositionRoles: Array<{ text: string, value: number }> = [];
   @Output() changeItem = new EventEmitter();
   @Output() changeInput = new EventEmitter<any>();
 
@@ -23,14 +38,16 @@ export class PositionDrawerComponent {
     appendTo: 'component',
     popupClass: 'multiselect-popup'
   }
-  @ViewChild(MultiSelectComponent, { static: false }) multiselect: MultiSelectComponent;
+  //LIST POSITION ROLE
 
-  openMultiselectPopup() {
-    this.multiselect.toggle(true);
-  }
-  preventMultiselectPopup() {
-    this.multiselect.toggle(false);
-  }
+  //STATUS
+  @Input() listStatus: Array<{ text: string, value: number }> = [];
+  @Input() selectedStatus: { text: string, value: number };
+  //STATUS
+  ///////////////////////////////////VARIABLES///////////////////////////////////
+
+  ///////////////////////////////////FUCTIONS///////////////////////////////////
+  //LIST POSITION ROLE MULTISELECT EVENTS
   public onChangeItem(value: any) {
     console.log(value);
     this.changeItem.emit(value);
@@ -39,11 +56,9 @@ export class PositionDrawerComponent {
     this.newItem = event
   }
 
-  public addNewRole() {
-    this.listItems.push(this.newItem)
-    console.log(this.listItems);
-  }
-  //MULTISELECT
+
+  //LIST POSITION ROLE MULTISELECT EVENTS
+
   //BUTTON EVENTS AND TEXT VALUE;
   @Output() closeDrawer = new EventEmitter();
   @Output() submitDrawer = new EventEmitter();
@@ -55,4 +70,6 @@ export class PositionDrawerComponent {
     this.submitDrawer.emit(event);
   }
   //BUTTON EVENTS AND TEXT VALUE;
+  ///////////////////////////////////FUCTIONS///////////////////////////////////
+
 }

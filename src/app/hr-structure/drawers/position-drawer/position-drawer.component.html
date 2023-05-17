@@ -28,43 +28,53 @@
             </div>
             <div class="dependent-place">
                 <kendo-label text="Đơn vị trực thuộc"></kendo-label>
-                <kendo-dropdownlist></kendo-dropdownlist>
+                <kendo-dropdownlist [data]="listDepartments"
+                                    textField="text"
+                                    valueField="value"
+                                    [value]="selectedDepartment"></kendo-dropdownlist>
             </div>
             <div class="management-title">
                 <kendo-label text="Chức danh quản lý hành chính"></kendo-label>
-                <kendo-dropdownlist></kendo-dropdownlist>
+                <kendo-dropdownlist [data]="listPositions"
+                                    textField="text"
+                                    valueField="value"
+                                    [value]="selectedPosition"></kendo-dropdownlist>
             </div>
             <div class="grouping">
                 <kendo-label text="Phân nhóm"></kendo-label>
-                <kendo-dropdownlist></kendo-dropdownlist>
+                <kendo-dropdownlist [data]="listPositionGroup"
+                                    textField="text"
+                                    valueField="value"
+                                    [value]="selectedPositionGroup"></kendo-dropdownlist>
             </div>
             <div class="role">
                 <div class="add-new-role">
                     <kendo-label text="Vai trò sử dụng tài nguyên hệ thống"></kendo-label>
                     <kendo-button class="add-role-btn"
-                                  iconClass="fa-solid fa-plus"
-                                  (mousedown)="addNewRole()"></kendo-button>
+                                  iconClass="fa-solid fa-plus"></kendo-button>
                 </div>
                 <div class="role-contents">
                     <kendo-multiselect #multiselect
-                                       [data]="listItems"
-                                       [value]="selectedItems"
+                                       [data]="listPositionRoles"
+                                       textField="text"
+                                       valueField="value"
+                                       [value]="selectedPositionRoles"
                                        [filterable]="true"
                                        (valueChange)="onChangeItem($event)"
                                        (filterChange)="onChangeInput($event)"
                                        [clearButton]="false"
                                        [popupSettings]="multiSelectPopup"
-                                       (open)="preventMultiselectPopup()"
                                        [allowCustom]="true">
                     </kendo-multiselect>
-                    <kendo-button iconClass="fa-solid fa-chevron-down"
-                                  (click)="openMultiselectPopup()"></kendo-button>
                 </div>
             </div>
             <div class="status">
                 <kendo-label text="Tình trạng">
                 </kendo-label>
-                <kendo-dropdownlist></kendo-dropdownlist>
+                <kendo-dropdownlist [data]="listStatus"
+                                    textField="text"
+                                    valueField="value"
+                                    [value]="selectedStatus"></kendo-dropdownlist>
             </div>
         </div>
         <div class="footer">

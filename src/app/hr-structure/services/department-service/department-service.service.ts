@@ -81,4 +81,38 @@ export class DepartmentServiceService {
     return this.http.post(this.listLocationUrl, body, { headers: header });
   }
   //GET LIST LOCATION
+
+  //GET LIST POSITION
+  listPositionUrl = this.localERP + '/api/hr/GetListPosition';
+  getListPosition(body: { DepartmentID: number }) {
+    const header = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.globalToken,
+      'Company': '1'
+    });
+    return this.http.post(this.listPositionUrl, body, { headers: header });
+  }
+  //GET LIST POSITION
+
+  //GET LIST POSITION GROUP
+  listPositionGroupUrl = this.localERP + '/api/hr/GetListPositionGroup';
+  getListPositionGroup(body: {} = {}) {
+    const header = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.globalToken,
+      'Company': '1'
+    });
+    return this.http.post(this.listPositionGroupUrl, body, { headers: header });
+  }
+  //GET LIST POSITION GROUP
+
+  //GET LIST POSITION ROLE
+  listPositionRoleUrl = this.localERP + '/api/hr/GetListPositionGroup';
+  getListPositionRole(body: {} = {}) {
+    const header = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.globalToken,
+      'Company': '1'
+    });
+    return this.http.post(this.listPositionRoleUrl, body, { headers: header });
+  }
+  //GET LIST POSITION ROLE
+
 }
