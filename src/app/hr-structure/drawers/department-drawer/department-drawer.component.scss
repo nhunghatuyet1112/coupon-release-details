@@ -48,13 +48,14 @@
                 border: 2px solid #DBDEE7;
                 width: 35%;
             }
-            div {
+            .dependent-place, .status {
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
                 row-gap: 10px;
             }
             .code-shortname{
+                display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 .code, .shortname {
@@ -71,6 +72,16 @@
             }
             .phonenumber, .fax {
                 width: 60%;
+            }
+            .workstation {
+                .workstation-contents {
+                    display: flex;
+                    .multiselect-popup {
+                        .k-selected {
+                            background-color: #1A6634;
+                        }
+                    }
+                }
             }
         }
         .content::-webkit-scrollbar{

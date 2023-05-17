@@ -3,7 +3,7 @@
         <div class="title">
             <img class="icon"
                  src="assets/hr-structure/icons/drawer-icon/User.svg">
-            <span>THÔNG TIN ĐƠN VỊ</span>
+            <span>THÔNG TIN CHỨC DANH</span>
         </div>
         <div class="content">
             <div class="name">
@@ -41,11 +41,26 @@
             <div class="role">
                 <div class="add-new-role">
                     <kendo-label text="Vai trò sử dụng tài nguyên hệ thống"></kendo-label>
-                    <kendo-button iconClass="fa-solid fa-plus"></kendo-button>
+                    <kendo-button class="add-role-btn"
+                                  iconClass="fa-solid fa-plus"
+                                  (mousedown)="addNewRole()"></kendo-button>
                 </div>
-                <kendo-dropdownlist></kendo-dropdownlist>
+                <div class="role-contents">
+                    <kendo-multiselect #multiselect
+                                       [data]="listItems"
+                                       [value]="selectedItems"
+                                       [filterable]="true"
+                                       (valueChange)="onChangeItem($event)"
+                                       (filterChange)="onChangeInput($event)"
+                                       [clearButton]="false"
+                                       [popupSettings]="multiSelectPopup"
+                                       (open)="preventMultiselectPopup()"
+                                       [allowCustom]="true">
+                    </kendo-multiselect>
+                    <kendo-button iconClass="fa-solid fa-chevron-down"
+                                  (click)="openMultiselectPopup()"></kendo-button>
+                </div>
             </div>
-
             <div class="status">
                 <kendo-label text="Tình trạng">
                 </kendo-label>

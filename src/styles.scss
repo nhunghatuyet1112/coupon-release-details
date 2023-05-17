@@ -17,3 +17,25 @@ html {
     background-color: #008000;
     border-style: none;
 }
+
+.k-i-caret-alt-down.k-icon::before {
+    content: "\e015";
+}
+
+.k-chip-list{
+    height: 100%;
+    .k-chip {
+        flex-direction: row-reverse;
+        border-style: none;
+        background-color: #DBDEE7;
+        border-radius: 14px;
+        background-image: none;
+        .k-i-x-circle::before {
+            content: '\e11b';
+        }
+    }
+}
+.k-chip-list::after {
+    content: "\e015";
+    cursor: pointer;
+}

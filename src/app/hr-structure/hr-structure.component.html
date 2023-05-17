@@ -5,6 +5,17 @@
                   position="end">
         <ng-template kendoDrawerTemplate>
             <app-department-drawer [buttonText]="buttonText"
+                                   [Name]="this.selectedDepartment.Position || this.selectedDepartment.Department"
+                                   [Code]="this.selectedDepartment.PositionID || this.selectedDepartment.DepartmentID"
+                                   [ShortName]="this.selectedDepartment.PositionID || this.selectedDepartment.DepartmentID"
+                                   [Phonenumber]="this.selectedDepartment.Phone"
+                                   [Fax]="this.selectedDepartment.Fax"
+                                   [Brief]="this.selectedDepartment.Brief"
+                                   [listDepartments]="listDepartments"
+                                   [selectedDepartment]="selectedDepartmentDropdown"
+                                   [listLocations]="listLocations"
+                                   [selectedLocations]="selectedLocations"
+                                   [changeItem]="changeItem($event)"
                                    (closeDrawer)="closeDrawer(hrStructureDrawer)"
                                    (submitDrawer)="submitDrawer(hrStructureDrawer)"></app-department-drawer>
         </ng-template>
@@ -104,7 +115,7 @@
                                  let-dataItem>
                         <button #anchor
                                 kendoButton
-                                (click)="onOpenPopup(anchor.element)"
+                                (click)="onOpenPopup(anchor.element, dataItem)"
                                 iconClass="fa-solid fa-ellipsis"></button>
                     </ng-template>
                 </kendo-treelist-column>
@@ -114,7 +125,7 @@
                          *ngIf="isPopupHidden">
                 <div class="popup-contents">
                     <kendo-button iconClass="fa-solid fa-pencil"
-                                  (click)="openEditDrawer(hrStructureDrawer)">Chỉnh sửa</kendo-button>
+                                  (click)="openEditDrawer(hrStructureDrawer, hrPositionDrawer)">Chỉnh sửa</kendo-button>
 
                     <kendo-button iconClass="fa-solid fa-diagram-project"
                                   (click)="openAddDrawer(hrStructureDrawer)">Thêm mới đơn vị</kendo-button>

@@ -48,13 +48,8 @@
                 background-image: none;
                 border: 2px solid #DBDEE7;
             }
-            div {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                row-gap: 10px;
-            }
             .code-isleader {
+                display: flex;
                 flex-direction: row;
                 column-gap: 10px;
                 align-items: flex-end;
@@ -80,6 +75,9 @@
                     margin-left: 5px;
                     color: #1A6634;
                 }
+            }
+            .role-contents {
+                display: flex;
             }
         }
         .content::-webkit-scrollbar{
