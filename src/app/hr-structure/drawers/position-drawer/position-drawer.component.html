@@ -9,18 +9,21 @@
             <div class="name">
                 <kendo-label for="Name"
                              text="Tên chức danh"></kendo-label>
-                <kendo-textbox id="Name"></kendo-textbox>
+                <kendo-textbox id="Name"
+                               [value]="Position"></kendo-textbox>
             </div>
             <div class="code-isleader">
                 <div class="code">
                     <kendo-label for="Code"
                                  text="Mã chức danh"></kendo-label>
-                    <kendo-textbox id="Code">
+                    <kendo-textbox id="Code"
+                                   [value]="PositionID">
                     </kendo-textbox>
                 </div>
                 <span class="is-leader">
                     <input type="checkbox"
                            id="isLeader"
+                           [checked]="IsLeader"
                            kendoCheckBox>
                     <kendo-label for="isLeader"
                                  text="Là trưởng đơn vị"></kendo-label>
@@ -31,14 +34,14 @@
                 <kendo-dropdownlist [data]="listDepartments"
                                     textField="text"
                                     valueField="value"
-                                    [value]="selectedDepartment"></kendo-dropdownlist>
+                                    [value]="selectedDepartment"
+                                    (valueChange)="onChangeDepartment($event)"></kendo-dropdownlist>
             </div>
             <div class="management-title">
                 <kendo-label text="Chức danh quản lý hành chính"></kendo-label>
                 <kendo-dropdownlist [data]="listPositions"
-                                    textField="text"
-                                    valueField="value"
-                                    [value]="selectedPosition"></kendo-dropdownlist>
+                                    [value]="selectedPosition"
+                                    (valueChange)="onChangePosition($event)"></kendo-dropdownlist>
             </div>
             <div class="grouping">
                 <kendo-label text="Phân nhóm"></kendo-label>
@@ -62,7 +65,6 @@
                                        [filterable]="true"
                                        (valueChange)="onChangeItem($event)"
                                        (filterChange)="onChangeInput($event)"
-                                       [clearButton]="false"
                                        [popupSettings]="multiSelectPopup"
                                        [allowCustom]="true">
                     </kendo-multiselect>

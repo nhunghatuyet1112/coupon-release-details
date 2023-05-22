@@ -5,12 +5,12 @@
                   position="end">
         <ng-template kendoDrawerTemplate>
             <app-department-drawer [buttonText]="buttonText"
-                                   [Name]="this.selectedDepartment.Position || this.selectedDepartment.Department"
-                                   [Code]="this.selectedDepartment.PositionID || this.selectedDepartment.DepartmentID"
-                                   [ShortName]="this.selectedDepartment.PositionID || this.selectedDepartment.DepartmentID"
-                                   [Phonenumber]="this.selectedDepartment.Phone"
-                                   [Fax]="this.selectedDepartment.Fax"
-                                   [Brief]="this.selectedDepartment.Brief"
+                                   [Name]="newDepartment?.Position || newDepartment.Department"
+                                   [Code]="newDepartment?.PositionID || newDepartment.DepartmentID"
+                                   [ShortName]="newDepartment?.PositionID || newDepartment.DepartmentID"
+                                   [Phonenumber]="newDepartment.Phone"
+                                   [Fax]="newDepartment.Fax"
+                                   [Brief]="newDepartment.Brief"
                                    [listDepartments]="listDepartments"
                                    [selectedDepartment]="selectedDepartmentDropdown"
                                    [listLocations]="listLocations"
@@ -26,6 +26,15 @@
                   position="end">
         <ng-template kendoDrawerTemplate>
             <app-position-drawer [buttonText]="buttonText"
+                                 [Position]="newPosition.Position"
+                                 [PositionID]="newPosition.PositionID"
+                                 [IsLeader]="newPosition.IsLeader"
+                                 [listDepartments]="listDepartments"
+                                 [selectedDepartment]="selectedDepartmentDropdown"
+                                 (changeDepartment)="onChangeDepartment($event)"
+                                 [listPositions]="listPositions"
+                                 [selectedPosition]="selectedPosition"
+                                 (changePosition)="onChangePosition($event)"
                                  (closeDrawer)="closeDrawer(hrPositionDrawer)"
                                  (submitDrawer)="submitDrawer(hrPositionDrawer)"></app-position-drawer>
         </ng-template>
@@ -58,16 +67,18 @@
                 </div>
             </div>
             <div class="addnew-container">
-                <kendo-button class="add-unit"
-                              (click)="openAddDrawer(hrStructureDrawer)">
+                <kendo-button id="addNewDepartment"
+                              class="add-unit"
+                              (click)="openAddDepartmentDrawer(hrStructureDrawer, 'addNewDepartment')">
                     <i class="fa-solid fa-diagram-project"></i><i>THÊM MỚI ĐƠN VỊ</i>
                 </kendo-button>
-                <kendo-button class="add-child-unit"
-                              (click)="openAddDrawer(hrStructureDrawer)">
+                <kendo-button id="addNewDepartmentChild"
+                              class="add-child-unit"
+                              (click)="openAddDepartmentDrawer(hrStructureDrawer, 'addNewDepartmentChild')">
                     <i class="fa-solid fa-diagram-project"></i><i>THÊM MỚI ĐƠN VỊ CON</i>
                 </kendo-button>
                 <kendo-button class="add-title"
-                              (click)="openAddDrawer(hrPositionDrawer)">
+                              (click)="openAddPositionDrawer(hrPositionDrawer)">
                     <i class="fa-solid fa-diagram-project"></i><i>THÊM MỚI CHỨC DANH</i>
                 </kendo-button>
             </div>
@@ -77,6 +88,10 @@
                             [data]="listData"
                             [fetchChildren]="fetchChildren"
                             [hasChildren]="hasChildren"
+                            kendoTreeListSelectable
+                            [selectable]="selectedDepartmentSetting"
+                            [(selectedItems)]="selectedRow"
+                            (selectionChange)="onChangeRow($event)"
                             [initiallyExpanded]="true"
                             kendoTreeListExpandable>
                 <kendo-treelist-column [expandable]="true"
@@ -125,16 +140,22 @@
                          *ngIf="isPopupHidden">
                 <div class="popup-contents">
                     <kendo-button iconClass="fa-solid fa-pencil"
-                                  (click)="openEditDrawer(hrStructureDrawer, hrPositionDrawer)">Chỉnh sửa</kendo-button>
+                                  (click)="checkDrawer(hrStructureDrawer, hrPositionDrawer)">Chỉnh sửa</kendo-button>
 
-                    <kendo-button iconClass="fa-solid fa-diagram-project"
-                                  (click)="openAddDrawer(hrStructureDrawer)">Thêm mới đơn vị</kendo-button>
+                    <kendo-button id="addNewDepartment1"
+                                  iconClass="fa-solid fa-diagram-project"
+                                  (click)="openAddDepartmentDrawer(hrStructureDrawer, 'addNewDepartment1')">Thêm mới đơn
+                        vị</kendo-button>
 
-                    <kendo-button iconClass="fa-solid fa-diagram-project"
-                                  (click)="openAddDrawer(hrStructureDrawer)">Thêm mới đơn vị con</kendo-button>
+                    <kendo-button id="addNewDepartmentChild1"
+                                  iconClass="fa-solid fa-diagram-project"
+                                  (click)="openAddDepartmentDrawer(hrStructureDrawer, 'addNewDepartmentChild1')">Thêm
+                        mới
+                        đơn vị
+                        con</kendo-button>
 
                     <kendo-button iconClass="fa-regular fa-user"
-                                  (click)="openAddDrawer(hrPositionDrawer)">Thêm mới chức danh</kendo-button>
+                                  (click)="openAddPositionDrawer(hrPositionDrawer)">Thêm mới chức danh</kendo-button>
                 </div>
             </kendo-popup>
         </div>

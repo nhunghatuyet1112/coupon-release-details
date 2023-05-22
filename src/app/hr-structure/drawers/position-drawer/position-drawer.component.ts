@@ -8,6 +8,12 @@ import { MultiSelectComponent, PopupSettings } from '@progress/kendo-angular-dro
 })
 export class PositionDrawerComponent {
   ///////////////////////////////////VARIABLES///////////////////////////////////
+  //TEXTBOXES
+  @Input() Position: string;
+  @Input() PositionID: string;
+  @Input() IsLeader: boolean;
+  //TEXTBOXES
+
   //BUTTON TEXT
   @Input() buttonText = '';
   //BUTTON TEXT
@@ -15,11 +21,13 @@ export class PositionDrawerComponent {
   //DEPARTMENT DROPDOWN
   @Input() listDepartments: Array<{ text: string, value: number }> = [];
   @Input() selectedDepartment: { text: string, value: number };
+  @Output() changeDepartment = new EventEmitter();
   //DEPARTMENT DROPDOWN
 
   //LIST POSITION
-  @Input() listPositions: Array<{ text: string, value: number }> = [];
-  @Input() selectedPosition: { text: string, value: number };
+  @Input() listPositions: Array<string> = [];
+  @Input() selectedPosition: string;
+  @Output() changePosition = new EventEmitter();
   //LIST POSITION
 
   //LIST POSITION GROUP
@@ -47,6 +55,17 @@ export class PositionDrawerComponent {
   ///////////////////////////////////VARIABLES///////////////////////////////////
 
   ///////////////////////////////////FUCTIONS///////////////////////////////////
+  //LIST DEPARTMENT CHANGE VALUE EVENT
+  public onChangeDepartment(event: any) {
+    this.changeDepartment.emit(event);
+  }
+  //LIST DEPARTMENT CHANGE VALUE EVENT
+  //LIST POSITION DROPDOWN EVENTS
+  public onChangePosition(event: any) {
+    this.changePosition.emit(event);
+  }
+  //LIST POSITION DROPDOWN EVENTS
+
   //LIST POSITION ROLE MULTISELECT EVENTS
   public onChangeItem(value: any) {
     console.log(value);

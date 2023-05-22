@@ -1,0 +1,100 @@
+.header-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #BDC2D2;
+    .checkboxes {
+        display: flex;
+        flex-grow: 2;
+        column-gap: 10px;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 16px;
+        color: #959DB3;
+        .working-checkbox, .resign-checkbox, .resigned-checkbox{
+            display: flex;
+            width: 12%;
+            justify-content: space-around;
+            padding: 5px 10px;
+            border-radius: 14px;
+            background-color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+        }
+        .working-checkbox:has(#Working:checked), .resign-checkbox:has(#ResignProcedure:checked), .resigned-checkbox:has(#Resigned:checked) {
+            border-color: #008000;
+        }
+    }
+    .add-new-btn {
+        .k-button {
+            background-color: #1A6634;
+            color: #FFFFFF;
+            padding: 8px 15px;
+            margin-right: 5px;
+            font-weight: 700;
+            font-size: 11px;
+            line-height: 14px;
+            color: #FFFFFF;
+        }
+    }
+}
+
+.header-2 {
+    margin-top: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #BDC2D2;
+    .filter-container{
+        display: flex;
+        flex-grow: 2;
+        column-gap: 35px;
+        .clear-filter{
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+            .title {
+                .text{
+                    padding-left: 10px;
+                    font-weight: 700;
+                    font-size: 13px;
+                    line-height: 16px;
+                    color: #5A6276;
+                }
+            }
+            .clear-btn, .clear-btn.k-focus{
+                padding-left: 15px;
+                background-color: transparent;
+                border-style: none;
+                font-weight: 400;
+                font-size: 13px;
+                line-height: 16px;
+                text-decoration-line: underline;
+                color: #008000;
+            }
+        }
+        .search-filter{
+            display: flex;
+            align-items: flex-end;
+            flex-grow: 2;
+            column-gap: 5px;
+            .search-input{
+                display: flex;
+                flex-direction: column;
+                row-gap: 5px;
+                width: 50%;
+                .label{
+                    font-weight: 700;
+                    font-size: 13px;
+                    line-height: 16px;
+                    color: #959DB3;
+                }
+                .k-textbox{
+                    padding-inline-start: 10px;
+                }
+            }
+            .search-btn{
+                background-color: #008000;
+                color: #FFFFFF;
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+<div class="header-1">
+    <div class="checkboxes">
+        <div class="working-checkbox">
+            <kendo-label for="Working"
+                         text="107 - Đang làm việc"></kendo-label>
+            <input id="Working"
+                   type="checkbox"
+                   kendoCheckBox>
+        </div>
+        <div class="resign-checkbox">
+            <kendo-label for="ResignProcedure"
+                         text="1 - Thủ tục nghỉ việc"></kendo-label>
+            <input id="ResignProcedure"
+                   type="checkbox"
+                   kendoCheckBox>
+        </div>
+        <div class="resigned-checkbox">
+            <kendo-label for="Resigned"
+                         text="120 - Đã nghỉ việc"></kendo-label>
+            <input id="Resigned"
+                   type="checkbox"
+                   kendoCheckBox>
+        </div>
+    </div>
+    <div class="add-new-btn">
+        <kendo-button iconClass="fa-solid fa-plus">TẠO MỚI</kendo-button>
+    </div>
+</div>
+<div class="header-2">
+    <div class="filter-container">
+        <div class="clear-filter">
+            <span class="title">
+                <img src="assets/header-assets/Shape.svg" />
+                <i class="text">LỌC DỮ LIỆU</i>
+            </span>
+            <kendo-button class="clear-btn">Xóa bộ lọc</kendo-button>
+        </div>
+        <div class="search-filter">
+            <div class="search-input">
+                <kendo-label class="label"
+                             for="searchInfo"
+                             text="Tìm kiếm"></kendo-label>
+                <kendo-textbox id="searchInfo"
+                               placeholder="Tìm theo mã, họ và tên nhân viên, chức danh">
+                    <ng-template kendoTextBoxPrefixTemplate>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </ng-template>
+                </kendo-textbox>
+            </div>
+            <kendo-button class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i><i>Tìm</i>
+            </kendo-button>
+        </div>
+    </div>
+</div>
+<div class="list-employee-grid"></div>

@@ -29,6 +29,7 @@ import { WorkstationDrawerComponent } from './workstation-drawer/workstation-dra
 import { HrStructureComponent } from './hr-structure/hr-structure.component';
 import { DepartmentDrawerComponent } from './hr-structure/drawers/department-drawer/department-drawer.component';
 import { PositionDrawerComponent } from './hr-structure/drawers/position-drawer/position-drawer.component';
+import { EmployeeListComponent } from './employee-list/employee-list.component';
 
 
 
@@ -53,6 +54,7 @@ import { PositionDrawerComponent } from './hr-structure/drawers/position-drawer/
     HrStructureComponent,
     DepartmentDrawerComponent,
     PositionDrawerComponent,
+    EmployeeListComponent,
   ],
   imports: [
     IntlModule,

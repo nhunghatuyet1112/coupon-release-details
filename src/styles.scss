@@ -11,7 +11,7 @@ html {
     background-color: #EDEFF3;
 }
 
-.k-checkbox:checked:focus{
+.k-checkbox:checked, .k-checkbox:focus{
     border-color:#008000;
     box-shadow: none;
     background-color: #008000;

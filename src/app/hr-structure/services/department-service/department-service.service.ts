@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { interval, Observable, switchMap } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { interval } from 'rxjs';
 import { DataSourceRequestState, toDataSourceRequest } from '@progress/kendo-data-query';
 
 @Injectable({
@@ -9,24 +9,10 @@ import { DataSourceRequestState, toDataSourceRequest } from '@progress/kendo-dat
 })
 export class DepartmentServiceService {
 
-  constructor(private http: HttpClient) {
-    this.getToken().subscribe((response: any) => {
-      this.globalToken = response.access_token;
-
-      // Số giây sau khi gọi getToken để lấy token mới
-      const refreshTokenInterval = 3600;
-
-      // Gọi getToken sau mỗi khoảng thời gian refreshTokenInterval
-      interval(refreshTokenInterval * 1000).subscribe(() => {
-        this.getToken().subscribe((response: any) => {
-          this.globalToken = response.access_token;
-        });
-      });
-    });
-  }
+  constructor(private http: HttpClient) { }
   localERP = 'http://172.16.10.86:75/erp'
   globalToken = '';
-  header = new HttpHeaders()
+
   //GET TOKEN
   apiUrl = 'http://172.16.10.86:5001/connect/token';
   username = 'hachihachi';
@@ -35,6 +21,7 @@ export class DepartmentServiceService {
   scope = 'adminapi offline_access';
   client_id = 'admin';
   client_secret = 'adminsecret';
+
 
   getToken(): Observable<any> {
     let formData = new FormData();
@@ -45,18 +32,23 @@ export class DepartmentServiceService {
     formData.append('client_id', this.client_id);
     formData.append('client_secret', this.client_secret);
 
-    return this.http.post(this.apiUrl, formData);
+    return this.http.post(this.apiUrl, formData).pipe(
+      map((response: any) => {
+        this.globalToken = response.access_token;
+        return response.access_token;
+      })
+    );
   }
   //GET TOKEN
 
   //GET LIST DEPARTMENT TREE
   listDepartmentTreeUrl = this.localERP + '/api/hr/GetListDepartmentTree';
-  getListDepartmentTree(body: any) {
+  getListDepartmentTree() {
     const header = new HttpHeaders({
       'Authorization': 'Bearer ' + this.globalToken,
       'Company': '1'
     });
-    return this.http.post(this.listDepartmentTreeUrl, body, { headers: header });
+    return this.http.post(this.listDepartmentTreeUrl, {}, { headers: header });
   }
   //GET LIST DEPARTMENT TREE
 

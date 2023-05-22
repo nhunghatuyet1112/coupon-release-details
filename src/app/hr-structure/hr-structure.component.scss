@@ -119,6 +119,7 @@
                         }
                     }
                     .k-table-row{
+                        background-color: #008000;
                         .k-table-td:first-child {
                             width: 28%;
                         }
@@ -152,7 +153,12 @@
                             }
                         }
                     }
-                    
+                    .k-table-row:hover .k-table-td {
+                        background-color: #b8e1b89f;
+                    }
+                    .k-table-row.k-selected .k-table-td {
+                        background-color: #b8e1b870;
+                    }
                 }
             }
             .k-popup {
